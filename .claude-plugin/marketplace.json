@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-phoenix-skills-marketplace",
+  "description": "Deployable Claude Code skills, organized by area. First area: cost optimization — cut token spend on every agent run.",
+  "owner": {
+    "name": "ruhaans05",
+    "url": "https://github.com/ruhaans05"
+  },
+  "plugins": [
+    {
+      "name": "cost-optimization",
+      "description": "Token/cost-optimization skills + orchestrator agent: model routing, context pruning, output compression, prompt-cache optimization.",
+      "source": "./plugins/cost-optimization",
+      "category": "productivity"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "cost-optimization",
+  "description": "Cut token spend on every agent run: model-router, context-prune, output-compress, cache-optimizer, orchestrated by the cost-optimizer agent.",
+  "version": "0.1.0",
+  "author": {
+    "name": "ruhaans05",
+    "url": "https://github.com/ruhaans05"
+  }
+}
