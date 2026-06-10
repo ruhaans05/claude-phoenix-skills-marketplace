@@ -3,8 +3,8 @@
 A central, world-installable **marketplace of deployable skills for [Claude Code](https://claude.com/claude-code)**.
 Organized into **areas** — each area is an installable plugin orchestrated by an agent.
 
-> **Areas so far:** Cost Optimization (cut token spend) and Coding (agentic coding
-> workflows for the CLI). More coming.
+> **Areas so far:** Cost Optimization (cut token spend), Coding (agentic coding workflows for
+> the CLI), and Guardrails (safety + quality checks). More coming.
 
 ---
 
@@ -16,6 +16,7 @@ In Claude Code, add the marketplace once, then install the areas you want:
 /plugin marketplace add ruhaans05/claude-phoenix-skills-marketplace
 /plugin install cost-optimization@claude-phoenix-skills-marketplace
 /plugin install coding@claude-phoenix-skills-marketplace
+/plugin install guardrails@claude-phoenix-skills-marketplace
 ```
 
 The skills and each area's orchestrator agent become available immediately.
@@ -70,6 +71,27 @@ faithfully.
 
 ---
 
+## Area: Guardrails
+
+Safety and quality checks that fire at the risky moments of an agentic run — before something
+irreversible, leaky, or unverified happens. Orchestrated by the **`guardrails-orchestrator`**
+agent, which watches for the risky moment and invokes the matching check.
+
+| Skill | Fires when | Prevents |
+|-------|-----------|----------|
+| **no-destruction** | About to run a hard-to-reverse command (delete, overwrite, force-push, `DROP`, prod write) | Irreversible damage from an unconfirmed action |
+| **secret-guard** | About to commit/log/print anything credential-shaped | Leaking keys, tokens, `.env` values |
+| **scope-guard** | Edits drift beyond what was asked | Scope creep — unrelated changes riding along |
+| **dep-guard** | About to add/upgrade a dependency | Supply-chain risk: typosquats, unvetted/bloated packages |
+| **verify-before-done** | About to say "done" / "fixed" / "works" | False completion claims that weren't run |
+
+These compose with the other areas — `ship-it` already leans on several of them; this area
+makes the checks explicit and reusable everywhere. Core stance: default to caution on
+anything irreversible or outward-facing, look at the target before destroying it, and report
+honestly.
+
+---
+
 ## How the marketplace is organized
 
 ```
@@ -84,15 +106,24 @@ claude-phoenix-skills-marketplace/
     │       ├── context-prune/
     │       ├── output-compress/
     │       └── cache-optimizer/
-    └── coding/
+    ├── coding/
+    │   ├── .claude-plugin/plugin.json
+    │   ├── agents/coding-orchestrator.md
+    │   └── skills/
+    │       ├── explore-first/
+    │       ├── tdd-loop/
+    │       ├── debug-rca/
+    │       ├── safe-refactor/
+    │       └── ship-it/
+    └── guardrails/
         ├── .claude-plugin/plugin.json
-        ├── agents/coding-orchestrator.md
+        ├── agents/guardrails-orchestrator.md
         └── skills/
-            ├── explore-first/
-            ├── tdd-loop/
-            ├── debug-rca/
-            ├── safe-refactor/
-            └── ship-it/
+            ├── no-destruction/
+            ├── secret-guard/
+            ├── scope-guard/
+            ├── dep-guard/
+            └── verify-before-done/
 ```
 
 Each **area** is a self-contained plugin you can install on its own. Adding a new area =
@@ -105,7 +136,8 @@ a new `plugins/<area>/` directory + one entry in `marketplace.json`. See
 
 - ✅ **Cost Optimization** — token/cost savings during a run
 - ✅ **Coding** — agentic coding workflows for the CLI
-- 🔜 More areas (docs, security, testing, …) — contributions welcome
+- ✅ **Guardrails** — safety + quality checks at the risky moments
+- 🔜 More areas (docs, testing, performance, …) — contributions welcome
 
 ---
 

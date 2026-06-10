@@ -1,0 +1,9 @@
+{
+  "name": "guardrails",
+  "description": "Safety and quality guardrails for agentic coding: no-destruction, secret-guard, scope-guard, dep-guard, verify-before-done, orchestrated by the guardrails-orchestrator agent.",
+  "version": "0.1.0",
+  "author": {
+    "name": "ruhaans05",
+    "url": "https://github.com/ruhaans05"
+  }
+}

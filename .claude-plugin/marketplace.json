@@ -18,6 +18,12 @@
       "description": "Agentic coding workflows + orchestrator agent: explore-first, tdd-loop, debug-rca, safe-refactor, ship-it.",
       "source": "./plugins/coding",
       "category": "productivity"
+    },
+    {
+      "name": "guardrails",
+      "description": "Safety and quality guardrails + orchestrator agent: no-destruction, secret-guard, scope-guard, dep-guard, verify-before-done.",
+      "source": "./plugins/guardrails",
+      "category": "productivity"
     }
   ]
 }
