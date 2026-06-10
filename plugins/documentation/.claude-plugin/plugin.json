@@ -1,0 +1,9 @@
+{
+  "name": "documentation",
+  "description": "Documentation skills for agentic coding: docstring-gen, readme-craft, changelog-keep, api-docs, doc-sync, orchestrated by the documentation-orchestrator agent.",
+  "version": "0.1.0",
+  "author": {
+    "name": "ruhaans05",
+    "url": "https://github.com/ruhaans05"
+  }
+}

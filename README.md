@@ -4,7 +4,8 @@ A central, world-installable **marketplace of deployable skills for [Claude Code
 Organized into **areas** — each area is an installable plugin orchestrated by an agent.
 
 > **Areas so far:** Cost Optimization (cut token spend), Coding (agentic coding workflows for
-> the CLI), and Guardrails (safety + quality checks). More coming.
+> the CLI), Guardrails (safety + quality checks), and Documentation (write + maintain docs).
+> More coming.
 
 ---
 
@@ -17,6 +18,7 @@ In Claude Code, add the marketplace once, then install the areas you want:
 /plugin install cost-optimization@claude-phoenix-skills-marketplace
 /plugin install coding@claude-phoenix-skills-marketplace
 /plugin install guardrails@claude-phoenix-skills-marketplace
+/plugin install documentation@claude-phoenix-skills-marketplace
 ```
 
 The skills and each area's orchestrator agent become available immediately.
@@ -92,6 +94,26 @@ honestly.
 
 ---
 
+## Area: Documentation
+
+Skills that write and maintain docs as part of the coding loop — accurate to the code,
+matched to the audience, kept current. Orchestrated by the **`documentation-orchestrator`**
+agent, which maps the doc need to the right skill.
+
+| Skill | For | Output |
+|-------|-----|--------|
+| **docstring-gen** | Explaining functions/classes inline | Docstrings in the project's convention, describing real behavior |
+| **readme-craft** | The project front door | A README a newcomer can act on in minutes |
+| **changelog-keep** | Recording what changed | CHANGELOG entries in Keep a Changelog format |
+| **api-docs** | A public API surface | Params, returns, errors, working examples per entry |
+| **doc-sync** | After a code change | Stale docs found and updated to match new behavior |
+
+The rule under all of them: **document what the code actually does** — verified by reading
+it, matched to the audience and the existing style, no more than needed. A confident wrong
+doc is the most damaging kind.
+
+---
+
 ## How the marketplace is organized
 
 ```
@@ -115,15 +137,24 @@ claude-phoenix-skills-marketplace/
     │       ├── debug-rca/
     │       ├── safe-refactor/
     │       └── ship-it/
-    └── guardrails/
+    ├── guardrails/
+    │   ├── .claude-plugin/plugin.json
+    │   ├── agents/guardrails-orchestrator.md
+    │   └── skills/
+    │       ├── no-destruction/
+    │       ├── secret-guard/
+    │       ├── scope-guard/
+    │       ├── dep-guard/
+    │       └── verify-before-done/
+    └── documentation/
         ├── .claude-plugin/plugin.json
-        ├── agents/guardrails-orchestrator.md
+        ├── agents/documentation-orchestrator.md
         └── skills/
-            ├── no-destruction/
-            ├── secret-guard/
-            ├── scope-guard/
-            ├── dep-guard/
-            └── verify-before-done/
+            ├── docstring-gen/
+            ├── readme-craft/
+            ├── changelog-keep/
+            ├── api-docs/
+            └── doc-sync/
 ```
 
 Each **area** is a self-contained plugin you can install on its own. Adding a new area =
@@ -137,7 +168,8 @@ a new `plugins/<area>/` directory + one entry in `marketplace.json`. See
 - ✅ **Cost Optimization** — token/cost savings during a run
 - ✅ **Coding** — agentic coding workflows for the CLI
 - ✅ **Guardrails** — safety + quality checks at the risky moments
-- 🔜 More areas (docs, testing, performance, …) — contributions welcome
+- ✅ **Documentation** — write + maintain docs that stay true to the code
+- 🔜 More areas (testing, performance, …) — contributions welcome
 
 ---
 
