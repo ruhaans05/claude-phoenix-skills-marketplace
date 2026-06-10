@@ -12,6 +12,12 @@
       "description": "Token/cost-optimization skills + orchestrator agent: model routing, context pruning, output compression, prompt-cache optimization.",
       "source": "./plugins/cost-optimization",
       "category": "productivity"
+    },
+    {
+      "name": "coding",
+      "description": "Agentic coding workflows + orchestrator agent: explore-first, tdd-loop, debug-rca, safe-refactor, ship-it.",
+      "source": "./plugins/coding",
+      "category": "productivity"
     }
   ]
 }

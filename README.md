@@ -3,20 +3,22 @@
 A central, world-installable **marketplace of deployable skills for [Claude Code](https://claude.com/claude-code)**.
 Organized into **areas** — each area is an installable plugin orchestrated by an agent.
 
-> **First area: Cost Optimization.** Cut the token spend on every agent run. More areas coming.
+> **Areas so far:** Cost Optimization (cut token spend) and Coding (agentic coding
+> workflows for the CLI). More coming.
 
 ---
 
 ## Install
 
-In Claude Code:
+In Claude Code, add the marketplace once, then install the areas you want:
 
 ```
 /plugin marketplace add ruhaans05/claude-phoenix-skills-marketplace
 /plugin install cost-optimization@claude-phoenix-skills-marketplace
+/plugin install coding@claude-phoenix-skills-marketplace
 ```
 
-That's it. The skills and the orchestrator agent become available immediately.
+The skills and each area's orchestrator agent become available immediately.
 
 ---
 
@@ -45,20 +47,52 @@ tasks stay on the strong model, context you're actively using is never pruned.
 
 ---
 
+## Area: Coding
+
+Agentic workflows that make coding with the Claude Code CLI easier — each skill encodes one
+proven *loop* instead of ad-hoc editing. Orchestrated by the **`coding-orchestrator`** agent,
+which maps your task to the right workflow.
+
+| Skill | What it does | The loop |
+|-------|--------------|----------|
+| **explore-first** | Maps relevant code + existing patterns before writing, so you reuse instead of duplicate. | Ask → search read-only → record `file:line` facts → plan |
+| **tdd-loop** | Drives a feature test-first against real test output. | Red → green → refactor |
+| **debug-rca** | Roots out the real cause instead of guess-patching. | Reproduce → isolate → fix cause → verify |
+| **safe-refactor** | Restructures without changing behavior, under a test net. | Net → small step → re-run → repeat |
+| **ship-it** | Gates the change before it lands. | Review diff → run checks → commit/PR → push |
+
+**Typical feature:** `explore-first` → `tdd-loop` → `ship-it`.
+**Typical bug:** `debug-rca` → `tdd-loop` (lock the fix) → `ship-it`.
+
+Every skill shares the same principles: look before you write, verify with the real thing
+(run it, don't just read), small reversible steps, match the surrounding code, report
+faithfully.
+
+---
+
 ## How the marketplace is organized
 
 ```
 claude-phoenix-skills-marketplace/
 ├── .claude-plugin/marketplace.json     # lists every area/plugin
 └── plugins/
-    └── cost-optimization/              # one area = one installable plugin
+    ├── cost-optimization/              # one area = one installable plugin
+    │   ├── .claude-plugin/plugin.json
+    │   ├── agents/cost-optimizer.md    # orchestrator for the area
+    │   └── skills/                     # the skills in the area
+    │       ├── model-router/
+    │       ├── context-prune/
+    │       ├── output-compress/
+    │       └── cache-optimizer/
+    └── coding/
         ├── .claude-plugin/plugin.json
-        ├── agents/cost-optimizer.md    # orchestrator for the area
-        └── skills/                     # the skills in the area
-            ├── model-router/
-            ├── context-prune/
-            ├── output-compress/
-            └── cache-optimizer/
+        ├── agents/coding-orchestrator.md
+        └── skills/
+            ├── explore-first/
+            ├── tdd-loop/
+            ├── debug-rca/
+            ├── safe-refactor/
+            └── ship-it/
 ```
 
 Each **area** is a self-contained plugin you can install on its own. Adding a new area =
@@ -70,7 +104,8 @@ a new `plugins/<area>/` directory + one entry in `marketplace.json`. See
 ## Roadmap
 
 - ✅ **Cost Optimization** — token/cost savings during a run
-- 🔜 More areas (testing, refactoring, docs, security, …) — contributions welcome
+- ✅ **Coding** — agentic coding workflows for the CLI
+- 🔜 More areas (docs, security, testing, …) — contributions welcome
 
 ---
 
