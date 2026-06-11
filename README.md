@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/agent-city.svg" alt="Agent City — a skyline of Claude Code agents. The Mayor orchestrates from City Hall; the engineer, inspector, courier, and archivist buildings each carry their skills. One command in, a passing pull request out." width="100%">
+</p>
+
 # Phoenix City
 
 An agent marketplace for [Claude Code](https://claude.com/claude-code). It ships one

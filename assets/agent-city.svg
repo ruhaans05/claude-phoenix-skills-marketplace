@@ -1,0 +1,165 @@
+<svg viewBox="0 0 1200 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent City: the Mayor orchestrates from City Hall; the engineer, inspector, courier, and archivist buildings do the work. One command in, a passing pull request out.">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#070b16"/>
+      <stop offset="0.6" stop-color="#101027"/>
+      <stop offset="1" stop-color="#1d1130"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff9d3b" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#ff6a2b" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ff6a2b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe29a"/>
+      <stop offset="0.5" stop-color="#ff9d3b"/>
+      <stop offset="1" stop-color="#ff4d1c"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd28a"/>
+      <stop offset="0.5" stop-color="#ff8c3b"/>
+      <stop offset="1" stop-color="#ff5e8a"/>
+    </linearGradient>
+    <pattern id="winWarm" patternUnits="userSpaceOnUse" width="20" height="26">
+      <rect x="5" y="8" width="6" height="10" fill="#ffb86b" opacity="0.20"/>
+    </pattern>
+    <pattern id="winCool" patternUnits="userSpaceOnUse" width="20" height="26">
+      <rect x="5" y="8" width="6" height="10" fill="#7dd9ff" opacity="0.16"/>
+    </pattern>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+      .sans { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+      .tw  { animation: tw 3.2s ease-in-out infinite; }
+      .tw2 { animation: tw 4.1s ease-in-out 1.3s infinite; }
+      .tw3 { animation: tw 5.0s ease-in-out 0.6s infinite; }
+      @keyframes tw { 0%,100% { opacity:.85 } 50% { opacity:.12 } }
+      .pulse { animation: pulse 5s ease-in-out infinite; }
+      @keyframes pulse { 0%,100% { opacity:.5 } 50% { opacity:.95 } }
+      .flow { stroke-dasharray: 7 11; animation: flow 1.4s linear infinite; }
+      @keyframes flow { to { stroke-dashoffset: -18; } }
+    </style>
+  </defs>
+
+  <!-- sky -->
+  <rect width="1200" height="640" fill="url(#sky)"/>
+  <g fill="#cfe2ff">
+    <circle cx="150" cy="190" r="1.4" class="tw"/>
+    <circle cx="248" cy="120" r="1.1" class="tw2"/>
+    <circle cx="345" cy="220" r="1.3" class="tw3"/>
+    <circle cx="430" cy="96"  r="1.2" class="tw"/>
+    <circle cx="705" cy="120" r="1.2" class="tw2"/>
+    <circle cx="800" cy="200" r="1.4" class="tw3"/>
+    <circle cx="892" cy="130" r="1.1" class="tw"/>
+    <circle cx="985" cy="225" r="1.3" class="tw2"/>
+    <circle cx="1075" cy="160" r="1.2" class="tw3"/>
+    <circle cx="1158" cy="240" r="1.1" class="tw"/>
+    <circle cx="528" cy="105" r="1.2" class="tw3"/>
+    <circle cx="62"  cy="280" r="1.2" class="tw2"/>
+  </g>
+
+  <!-- phoenix sun behind city hall -->
+  <circle cx="600" cy="330" r="230" fill="url(#sun)" class="pulse"/>
+
+  <!-- title -->
+  <text x="70" y="86" class="sans" font-size="54" font-weight="800" letter-spacing="10" fill="url(#titleGrad)" filter="url(#glow)">AGENT CITY</text>
+  <text x="73" y="118" class="sans" font-size="16" letter-spacing="2" fill="#9fb0d0">one command in&#160;&#160;&#8594;&#160;&#160;a passing pull request out</text>
+  <text x="1130" y="62" text-anchor="end" class="mono" font-size="13" fill="#6b7a99">/plugin install agent-city@phoenix-city</text>
+  <text x="1130" y="84" text-anchor="end" class="mono" font-size="12" fill="#54627f">never merges to main</text>
+
+  <!-- ════════ city-engineer ════════ -->
+  <g>
+    <rect x="60" y="260" width="200" height="300" fill="#0d1626" fill-opacity="0.93" stroke="#ff8c3b" stroke-width="2" filter="url(#glow)"/>
+    <rect x="60" y="260" width="200" height="300" fill="url(#winWarm)"/>
+    <rect x="92"  y="276" width="6" height="10" fill="#ffd9a0" class="tw"/>
+    <rect x="172" y="302" width="6" height="10" fill="#ffd9a0" class="tw2"/>
+    <rect x="132" y="450" width="6" height="10" fill="#ffd9a0" class="tw3"/>
+    <rect x="85" y="296" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#ff8c3b" stroke-opacity="0.9"/>
+    <text x="160" y="315" text-anchor="middle" class="mono" font-size="14" fill="#ffb070">blueprint</text>
+    <rect x="85" y="336" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#ff8c3b" stroke-opacity="0.9"/>
+    <text x="160" y="355" text-anchor="middle" class="mono" font-size="14" fill="#ffb070">construct</text>
+  </g>
+
+  <!-- ════════ city-inspector ════════ -->
+  <g>
+    <rect x="290" y="320" width="180" height="240" fill="#0d1626" fill-opacity="0.93" stroke="#3bd6ff" stroke-width="2" filter="url(#glow)"/>
+    <rect x="290" y="320" width="180" height="240" fill="url(#winCool)"/>
+    <rect x="318" y="334" width="6" height="10" fill="#aee9ff" class="tw2"/>
+    <rect x="430" y="478" width="6" height="10" fill="#aee9ff" class="tw"/>
+    <rect x="305" y="354" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#3bd6ff" stroke-opacity="0.9"/>
+    <text x="380" y="373" text-anchor="middle" class="mono" font-size="14" fill="#8fe3ff">test-forge</text>
+    <rect x="305" y="394" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#3bd6ff" stroke-opacity="0.9"/>
+    <text x="380" y="413" text-anchor="middle" class="mono" font-size="14" fill="#8fe3ff">test-run</text>
+  </g>
+
+  <!-- ════════ city hall (mayor) ════════ -->
+  <g>
+    <line x1="600" y1="170" x2="600" y2="100" stroke="#ffb347" stroke-width="2.5" filter="url(#glow)"/>
+    <path d="M600 66 C586 92 584 104 600 118 C616 104 614 92 600 66 Z" fill="url(#flame)" filter="url(#bigGlow)" class="pulse"/>
+    <rect x="530" y="170" width="140" height="30" fill="#0d1626" fill-opacity="0.93" stroke="#ffb347" stroke-width="2" filter="url(#glow)"/>
+    <rect x="500" y="200" width="200" height="360" fill="#0d1626" fill-opacity="0.93" stroke="#ffb347" stroke-width="2.5" filter="url(#glow)"/>
+    <rect x="500" y="200" width="200" height="360" fill="url(#winWarm)"/>
+    <rect x="532" y="218" width="6" height="10" fill="#ffe1ad" class="tw3"/>
+    <rect x="652" y="244" width="6" height="10" fill="#ffe1ad" class="tw"/>
+    <rect x="572" y="470" width="6" height="10" fill="#ffe1ad" class="tw2"/>
+    <text x="600" y="232" text-anchor="middle" class="sans" font-size="13" font-weight="700" letter-spacing="3" fill="#ffd9a0">CITY HALL</text>
+    <rect x="520" y="248" width="160" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#ffb347" stroke-opacity="0.9"/>
+    <text x="600" y="267" text-anchor="middle" class="mono" font-size="14" fill="#ffcf8a">intake</text>
+    <rect x="520" y="288" width="160" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#ffb347" stroke-opacity="0.9"/>
+    <text x="600" y="307" text-anchor="middle" class="mono" font-size="14" fill="#ffcf8a">city-charter</text>
+  </g>
+
+  <!-- ════════ city-courier ════════ -->
+  <g>
+    <rect x="730" y="300" width="180" height="260" fill="#0d1626" fill-opacity="0.93" stroke="#ff5e8a" stroke-width="2" filter="url(#glow)"/>
+    <rect x="730" y="300" width="180" height="260" fill="url(#winWarm)"/>
+    <rect x="758" y="316" width="6" height="10" fill="#ffc1d4" class="tw"/>
+    <rect x="872" y="462" width="6" height="10" fill="#ffc1d4" class="tw3"/>
+    <rect x="745" y="338" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#ff5e8a" stroke-opacity="0.9"/>
+    <text x="820" y="357" text-anchor="middle" class="mono" font-size="14" fill="#ff9eb8">pr-open</text>
+    <rect x="745" y="378" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#ff5e8a" stroke-opacity="0.9"/>
+    <text x="820" y="397" text-anchor="middle" class="mono" font-size="14" fill="#ff9eb8">pr-steward</text>
+  </g>
+
+  <!-- ════════ city-archivist (database cylinder) ════════ -->
+  <g>
+    <rect x="950" y="372" width="180" height="188" fill="#0d1626" fill-opacity="0.93" stroke="#7df0c0" stroke-width="2" filter="url(#glow)"/>
+    <ellipse cx="1040" cy="372" rx="90" ry="17" fill="#0d1626" stroke="#7df0c0" stroke-width="2" filter="url(#glow)"/>
+    <path d="M950 505 A90 17 0 0 0 1130 505" fill="none" stroke="#7df0c0" stroke-width="1.5" stroke-opacity="0.5"/>
+    <rect x="965" y="404" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#7df0c0" stroke-opacity="0.9"/>
+    <text x="1040" y="423" text-anchor="middle" class="mono" font-size="14" fill="#a9f5d4">db-consult</text>
+    <rect x="965" y="444" width="150" height="28" rx="6" fill="#0a1120" fill-opacity="0.85" stroke="#7df0c0" stroke-opacity="0.9"/>
+    <text x="1040" y="463" text-anchor="middle" class="mono" font-size="14" fill="#a9f5d4">db-provision</text>
+  </g>
+
+  <!-- pipeline flowing through the city -->
+  <line x1="70" y1="545" x2="1130" y2="545" stroke="#ff8c3b" stroke-width="2" stroke-opacity="0.55" class="flow" filter="url(#glow)"/>
+
+  <!-- ground -->
+  <rect x="0" y="560" width="1200" height="80" fill="#060d18"/>
+  <line x1="0" y1="560" x2="1200" y2="560" stroke="#23496b" stroke-width="1.5"/>
+
+  <!-- agent nameplates -->
+  <g text-anchor="middle">
+    <text x="160" y="586" class="mono" font-size="15" font-weight="700" fill="#ff8c3b">city-engineer</text>
+    <text x="160" y="604" class="sans" font-size="11" fill="#6b7a99">writes your code</text>
+    <text x="380" y="586" class="mono" font-size="15" font-weight="700" fill="#3bd6ff">city-inspector</text>
+    <text x="380" y="604" class="sans" font-size="11" fill="#6b7a99">writes + runs the tests</text>
+    <text x="600" y="586" class="mono" font-size="15" font-weight="700" fill="#ffb347">mayor</text>
+    <text x="600" y="604" class="sans" font-size="11" fill="#6b7a99">orchestrates the pipeline</text>
+    <text x="820" y="586" class="mono" font-size="15" font-weight="700" fill="#ff5e8a">city-courier</text>
+    <text x="820" y="604" class="sans" font-size="11" fill="#6b7a99">opens + stewards the PR</text>
+    <text x="1040" y="586" class="mono" font-size="15" font-weight="700" fill="#7df0c0">city-archivist</text>
+    <text x="1040" y="604" class="sans" font-size="11" fill="#6b7a99">database, when needed</text>
+  </g>
+
+  <!-- pipeline strip -->
+  <text x="600" y="630" text-anchor="middle" class="mono" font-size="12" fill="#54627f">intake &#8594; blueprint &#8594; construct &#8594; test-forge &#8594; test-run &#8594; pr-open &#8594; pr-steward &#8594; green &#10003;</text>
+</svg>
