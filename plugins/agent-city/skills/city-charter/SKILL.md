@@ -61,7 +61,16 @@ After intake, the user is interrupted for exactly two reasons:
 Everything else is decided from the work order or sensible convention, and disclosed in
 the final report.
 
-## Article V — Immutable laws
+## Article V — The public record
+
+Every run keeps a ledger (`.agent-city/ledger.md`, the `city-ledger` skill) on the
+feature branch: the work order, one line per phase transition, decisions made by
+convention, and an always-current Status block. It makes the run auditable by the PR
+reviewer and resumable by a future session — a branch with a ledger is a run in flight,
+and the pipeline continues it rather than restarting. The work order may opt out
+("no ledger").
+
+## Article VI — Immutable laws
 
 1. **Never merge to main.** The pipeline's terminal state is an open pull request. Always.
 2. **Never claim unverified.** Test counts from real runs, check statuses from real polls.

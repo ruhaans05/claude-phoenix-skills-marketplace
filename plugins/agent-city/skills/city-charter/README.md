@@ -14,6 +14,8 @@ autonomy is bounded instead of unlimited.
 - Failure routing: red tests and rejected PRs go back to `construct` with a diagnosis.
 - Bounds: default 5 iterations, plateau detection, the one-pass opt-out.
 - The user's peace: interrupted only for database consults and safety confirmations.
+- The public record: every run keeps a ledger on the feature branch — auditable by the
+  reviewer, resumable by a future session.
 
 **Guardrail:** never merges to main, never claims unverified results, never widens scope,
 never buries a failure in a success claim.

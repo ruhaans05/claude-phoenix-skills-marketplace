@@ -4,10 +4,20 @@
 
 # Phoenix City
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
+[![Plugin: agent-city 1.1.0](https://img.shields.io/badge/agent--city-1.1.0-ff5e8a.svg)](plugins/agent-city)
+[![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-7df0c0.svg)](https://claude.com/claude-code)
+
 An agent marketplace for [Claude Code](https://claude.com/claude-code). It ships one
 plugin: **Agent City** — a group of agents that work together like a city to take a
 single command and turn it into a GitHub pull request with passing checks. Code written,
 tested, pushed, and looked after until it's green.
+
+It works where real work happens: your existing repo. The engineer surveys the codebase
+before writing anything, new code follows the house conventions, and the inspector runs
+your existing suite alongside the tests it writes — a change that breaks old behavior is
+a failed inspection, full stop. Green-field projects work too; they're just the easy
+case.
 
 The pipeline never merges to main. It gets your work to a passing PR; clicking merge is
 your job. And the name isn't decoration — when a test fails or a reviewer rejects the PR,
@@ -24,13 +34,21 @@ it. That's the phoenix part.
 Then give the Mayor a job:
 
 ```
-build me a URL shortener with Postgres — keep going until the PR passes
+/city build me a URL shortener with Postgres — keep going until the PR passes
 ```
 
-That's the whole interface. Once the pipeline starts, it only comes back to you for two
-things: database details (credentials, hosting, engine preference) and confirmation
-before anything destructive. Everything else it decides and discloses in the final
-report.
+That's the whole interface. (Plain prose works too — "build me X" without the slash
+command reaches the Mayor the same way.) Once the pipeline starts, it only comes back to
+you for two things: database details (credentials, hosting, engine preference) and
+confirmation before anything destructive. Everything else it decides and discloses in
+the final report.
+
+Two commands cover the lifecycle:
+
+| Command | What it does |
+|---------|--------------|
+| `/city <job>` | Start the pipeline — or resume one in flight on the current branch |
+| `/city-status` | Read-only: which phase, PR + live check status, what's red, next action |
 
 New to multi-agent systems, or want to understand how this one is put together before
 running it? Read [the guide](GUIDE.md) — it teaches how a city of agents works, start to
@@ -40,8 +58,9 @@ finish, using this one as the worked example.
 
 **The Mayor** is the orchestrator. It parses your command into a work order, runs the
 pipeline phase by phase, routes every failure to the right place, and is the only agent
-allowed to declare the run done. Its two skills: `intake` (command → work order) and
-`city-charter` (the pipeline's rules — phase order, failure routing, iteration bounds).
+allowed to declare the run done. Its skills: `intake` (command → work order),
+`city-charter` (the pipeline's rules — phase order, failure routing, iteration bounds),
+and `city-ledger` (the run's record — see below).
 
 The other four are the executive agents. Each owns a phase:
 
@@ -101,20 +120,42 @@ A few rules hold no matter what:
 4. Never dress up a failure as a success. Caps, plateaus, and blocks end with an honest
    report.
 
+### The ledger — resumable runs, auditable PRs
+
+Every run keeps `.agent-city/ledger.md` on the feature branch: the work order verbatim,
+one line per phase transition, every decision made by convention, and an always-current
+Status block. Two things fall out of that file:
+
+- **Your session can end mid-run.** Come back tomorrow, type `/city` on the branch, and
+  the Mayor verifies the ledger against git and GitHub, then continues from where it
+  actually stopped — completed phases are never re-run.
+- **Your reviewer gets the full account.** The ledger rides in the PR diff, so whoever
+  reviews can see what was asked, what was decided, which tests failed along the way and
+  how they were diagnosed. It dies with the branch if the PR is rejected.
+
+Don't want it? Say "no ledger" in the prompt.
+
 ## Examples
 
 ```
-# full autonomous run
-build me a REST API for a todo app with auth, keep going until the PR is green
+# feature in an existing repo — the common case
+/city add CSV export to the reports page, follow the existing download patterns
+
+# full autonomous run, green-field
+/city build me a REST API for a todo app with auth, keep going until the PR is green
 
 # database named up front — archivist consults before construction starts
-build a waitlist signup page backed by Supabase
+/city build a waitlist signup page backed by Supabase
 
 # one pass, no iteration
-add rate limiting to the API and just open the PR — don't loop on CI
+/city add rate limiting to the API and just open the PR — don't loop on CI
 
 # custom iteration budget
-build a markdown blog engine, cap it at 3 iterations
+/city build a markdown blog engine, cap it at 3 iterations
+
+# next morning, on the same branch
+/city            # resumes from the ledger
+/city-status     # or just ask where things stand
 ```
 
 ## Repo layout
@@ -123,6 +164,9 @@ build a markdown blog engine, cap it at 3 iterations
 .claude-plugin/marketplace.json        # the Phoenix City marketplace
 plugins/agent-city/
 ├── .claude-plugin/plugin.json
+├── commands/
+│   ├── city.md                        # /city — start or resume the pipeline
+│   └── city-status.md                 # /city-status — read-only run report
 ├── agents/
 │   ├── mayor.md                       # orchestrator
 │   ├── city-engineer.md               # code
@@ -130,11 +174,11 @@ plugins/agent-city/
 │   ├── city-courier.md                # PR / delivery
 │   └── city-archivist.md              # database (conditional)
 └── skills/
-    ├── city-charter/   intake/        # mayor
-    ├── blueprint/      construct/     # engineer
-    ├── test-forge/     test-run/      # inspector
-    ├── pr-open/        pr-steward/    # courier
-    └── db-consult/     db-provision/  # archivist
+    ├── city-charter/  intake/  city-ledger/   # mayor
+    ├── blueprint/     construct/              # engineer
+    ├── test-forge/    test-run/               # inspector
+    ├── pr-open/       pr-steward/             # courier
+    └── db-consult/    db-provision/           # archivist
 ```
 
 Each skill is a `SKILL.md` (the model-facing contract) plus a `README.md` (the
@@ -144,6 +188,8 @@ existing agent? See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Roadmap
 
 - [x] Agent City v1 — Mayor + four executive agents, one command to a passing PR
+- [x] v1.1 — `/city` + `/city-status` commands, and the ledger: resumable runs,
+      reviewer-auditable PRs ([CHANGELOG](CHANGELOG.md))
 - [ ] City Planner — a review agent that critiques the blueprint before construction
 - [ ] Night Watch — scheduled stewardship, tending open PRs after the session ends
 - [ ] More districts: observability, performance, security audit

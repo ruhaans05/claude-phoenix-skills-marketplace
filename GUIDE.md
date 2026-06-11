@@ -187,6 +187,15 @@ what changed and in which commit.
 check status, database details, iterations used (two of five), decisions made on your
 behalf. The merge button is yours.
 
+One more thing rode along the whole way: the **ledger** (`.agent-city/ledger.md`,
+committed on the feature branch). Every phase transition, every routed failure, every
+convention-decision — one line each, plus a Status block that's always current. It's why
+the run survives your session ending (type `/city` on the branch tomorrow and the Mayor
+resumes from the verified phase, never re-running completed work) and why your reviewer
+gets the full account of how the PR was made, right in the diff. Most agent systems
+treat the run as ephemeral; treating it as a *record* is what makes autonomy something a
+team can actually adopt.
+
 ## 7. How to judge any agent marketplace (including this one)
 
 Take this checklist to anything you're evaluating. It's the distilled version of

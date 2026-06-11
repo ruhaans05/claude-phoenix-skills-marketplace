@@ -14,6 +14,7 @@ plugin** to the marketplace.
 ```
 plugins/agent-city/
 ├── .claude-plugin/plugin.json
+├── commands/<name>.md          # slash commands (/city, /city-status): entry points
 ├── agents/
 │   ├── mayor.md                # orchestrator: starts/ends the pipeline, routes failures
 │   └── city-<name>.md          # executive agent: owns a phase, runs its skills
@@ -21,6 +22,9 @@ plugins/agent-city/
     ├── SKILL.md                # model-facing contract (+ YAML frontmatter)
     └── README.md               # human-facing explainer
 ```
+
+Changes that alter behavior get a [CHANGELOG](CHANGELOG.md) entry and, when user-facing,
+a version bump in `plugin.json`.
 
 ## Add a skill to an existing agent
 

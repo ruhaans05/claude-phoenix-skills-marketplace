@@ -44,6 +44,14 @@ genuinely unanswerable things routed to their sanctioned places.
 - **Out of scope matters.** Listing what you're *not* building is the cheapest scope-creep
   prevention in the pipeline.
 
+## After the work order
+
+Open the ledger: write the work order verbatim as the first entry of
+`.agent-city/ledger.md` per the `city-ledger` skill — unless the prompt opted out
+("no ledger"). If the current branch already carries a ledger, this is a resume, not an
+intake: hand control back to the Mayor's resume protocol instead of writing a new work
+order.
+
 ## Guardrails
 
 - Don't interrogate the user — ambiguities that convention can settle, convention settles;
