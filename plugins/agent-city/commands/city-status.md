@@ -17,7 +17,7 @@ otherwise the current branch).
    and flag the disagreement.
 3. **Summarize in five lines or fewer:** phase the run is in, PR URL and check status if
    one exists, what's red and why (from real logs, not check names), iterations
-   remaining, and the single next action — including "resume with /city" if the run
+   remaining, and the single next action — including "resume with /phoenix" if the run
    stopped mid-flight.
 
 Read-only: this command never edits files, pushes, or advances the pipeline. It only

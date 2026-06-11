@@ -5,7 +5,7 @@ description: >
   feature branch — the work order, every phase transition, every failure routed, every
   decision made by convention. Makes the run auditable by the PR reviewer and resumable
   by a future session. Use at intake (open the ledger), at every phase transition
-  (append), and on /city in a repo with a ledger already present (resume).
+  (append), and on /phoenix in a repo with a ledger already present (resume).
 ---
 
 # City Ledger
@@ -61,7 +61,7 @@ phase: pr-steward · iteration: 1/5 · PR: #42 · blocked-on: nothing
 
 ## Resume protocol
 
-On `/city` (or any pipeline start) in a repo where the current branch has a ledger:
+On `/phoenix` (or any pipeline start) in a repo where the current branch has a ledger:
 
 1. Read Status — it names the phase in flight and the iteration count.
 2. Verify against reality before trusting it: does the branch exist as recorded, does

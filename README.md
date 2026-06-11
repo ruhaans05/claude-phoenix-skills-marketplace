@@ -34,7 +34,7 @@ it. That's the phoenix part.
 Then give the Mayor a job:
 
 ```
-/city build me a URL shortener with Postgres — keep going until the PR passes
+/phoenix build me a URL shortener with Postgres — keep going until the PR passes
 ```
 
 That's the whole interface. (Plain prose works too — "build me X" without the slash
@@ -47,7 +47,7 @@ Two commands cover the lifecycle:
 
 | Command | What it does |
 |---------|--------------|
-| `/city <job>` | Start the pipeline — or resume one in flight on the current branch |
+| `/phoenix <job>` | Start the pipeline — or resume one in flight on the current branch |
 | `/city-status` | Read-only: which phase, PR + live check status, what's red, next action |
 
 New to multi-agent systems, or want to understand how this one is put together before
@@ -126,7 +126,7 @@ Every run keeps `.agent-city/ledger.md` on the feature branch: the work order ve
 one line per phase transition, every decision made by convention, and an always-current
 Status block. Two things fall out of that file:
 
-- **Your session can end mid-run.** Come back tomorrow, type `/city` on the branch, and
+- **Your session can end mid-run.** Come back tomorrow, type `/phoenix` on the branch, and
   the Mayor verifies the ledger against git and GitHub, then continues from where it
   actually stopped — completed phases are never re-run.
 - **Your reviewer gets the full account.** The ledger rides in the PR diff, so whoever
@@ -139,22 +139,22 @@ Don't want it? Say "no ledger" in the prompt.
 
 ```
 # feature in an existing repo — the common case
-/city add CSV export to the reports page, follow the existing download patterns
+/phoenix add CSV export to the reports page, follow the existing download patterns
 
 # full autonomous run, green-field
-/city build me a REST API for a todo app with auth, keep going until the PR is green
+/phoenix build me a REST API for a todo app with auth, keep going until the PR is green
 
 # database named up front — archivist consults before construction starts
-/city build a waitlist signup page backed by Supabase
+/phoenix build a waitlist signup page backed by Supabase
 
 # one pass, no iteration
-/city add rate limiting to the API and just open the PR — don't loop on CI
+/phoenix add rate limiting to the API and just open the PR — don't loop on CI
 
 # custom iteration budget
-/city build a markdown blog engine, cap it at 3 iterations
+/phoenix build a markdown blog engine, cap it at 3 iterations
 
 # next morning, on the same branch
-/city            # resumes from the ledger
+/phoenix          # resumes from the ledger
 /city-status     # or just ask where things stand
 ```
 
@@ -165,7 +165,7 @@ Don't want it? Say "no ledger" in the prompt.
 plugins/agent-city/
 ├── .claude-plugin/plugin.json
 ├── commands/
-│   ├── city.md                        # /city — start or resume the pipeline
+│   ├── phoenix.md                     # /phoenix — start or resume the pipeline
 │   └── city-status.md                 # /city-status — read-only run report
 ├── agents/
 │   ├── mayor.md                       # orchestrator
@@ -188,7 +188,7 @@ existing agent? See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Roadmap
 
 - [x] Agent City v1 — Mayor + four executive agents, one command to a passing PR
-- [x] v1.1 — `/city` + `/city-status` commands, and the ledger: resumable runs,
+- [x] v1.1 — `/phoenix` + `/city-status` commands, and the ledger: resumable runs,
       reviewer-auditable PRs ([CHANGELOG](CHANGELOG.md))
 - [ ] City Planner — a review agent that critiques the blueprint before construction
 - [ ] Night Watch — scheduled stewardship, tending open PRs after the session ends

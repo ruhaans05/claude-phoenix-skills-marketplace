@@ -1,5 +1,5 @@
 ---
-description: Start the Agent City pipeline — one command to a passing pull request
+description: Start the Phoenix City pipeline — one command to a passing pull request
 argument-hint: <what to build> [optional flags in plain words — "one pass", "cap at 3", "no ledger"]
 ---
 

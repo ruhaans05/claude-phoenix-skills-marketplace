@@ -6,7 +6,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.1.0] — 2026-06-11
 
 ### Added
-- `/city` slash command — deterministic entry point for the pipeline; detects and
+- `/phoenix` slash command — deterministic entry point for the pipeline; detects and
   resumes a run in flight.
 - `/city-status` slash command — read-only report: ledger, branch, PR, live check
   status, next action.
