@@ -1,62 +1,73 @@
-# Contributing
+# Contributing to Phoenix City
 
-Thanks for helping grow the marketplace. Two kinds of contributions: **add a skill to an
-existing collection**, or **add a whole new collection**.
+Thanks for helping the city grow. Three kinds of contributions: **add a skill to an
+existing agent**, **add a new agent (department) to Agent City**, or **add a whole new
+plugin** to the marketplace.
 
 ## Repo model
 
-- The repo is a **Claude Code plugin marketplace**. The root `.claude-plugin/marketplace.json`
-  lists every collection.
-- Each **collection** is one installable **plugin** under `plugins/<collection>/`, with its own
-  `.claude-plugin/plugin.json`, an `agents/` orchestrator, and a `skills/` directory.
+- The repo is a **Claude Code plugin marketplace**. The root
+  `.claude-plugin/marketplace.json` lists every plugin.
+- **Agent City** is one installable plugin under `plugins/agent-city/`: an orchestrator
+  (`mayor.md`), executive agents under `agents/`, and their skills under `skills/`.
 
 ```
-plugins/<collection>/
+plugins/agent-city/
 ├── .claude-plugin/plugin.json
-├── agents/<collection>-orchestrator.md   # routes the collection's skills
+├── agents/
+│   ├── mayor.md                # orchestrator: starts/ends the pipeline, routes failures
+│   └── city-<name>.md          # executive agent: owns a phase, runs its skills
 └── skills/<skill-name>/
-    ├── SKILL.md                          # LLM-facing prompt body (+ YAML frontmatter)
-    └── README.md                         # human-facing explainer
+    ├── SKILL.md                # model-facing contract (+ YAML frontmatter)
+    └── README.md               # human-facing explainer
 ```
 
-## Add a skill to an existing collection
+## Add a skill to an existing agent
 
-1. Create `plugins/<collection>/skills/<skill-name>/`.
+1. Create `plugins/agent-city/skills/<skill-name>/`.
 2. Write `SKILL.md` with YAML frontmatter:
    ```yaml
    ---
    name: <skill-name>
    description: >
-     What it does, and the trigger phrases that should activate it.
+     What it does, which agent runs it, where it sits in the pipeline, and the trigger
+     phrases that should activate it.
    ---
    ```
-   Then the prompt body — concrete rules, a worked example, and a guardrails section.
-3. Write a short `README.md` (what it does, why it helps, the guardrail, trigger phrases).
-4. If the collection has an orchestrator agent, add a row for the new skill to its routing table.
+   Then the contract body: concrete rules, the output it produces, and a guardrails
+   section.
+3. Write a short `README.md` (what / why it helps / guardrail / triggers).
+4. Add the skill to its agent's skill list, and to the Mayor's pipeline table if it's a
+   pipeline phase.
 
-## Add a new collection
+## Add a new agent (department)
 
-1. Create `plugins/<collection>/.claude-plugin/plugin.json`:
-   ```json
-   {
-     "name": "<collection>",
-     "description": "...",
-     "version": "0.1.0",
-     "author": { "name": "ruhaans05", "url": "https://github.com/ruhaans05" }
-   }
-   ```
-2. Add an `agents/<collection>-orchestrator.md` that diagnoses a situation and routes to the
-   collection's skills (see `plugins/cost-optimization/agents/cost-optimizer.md`).
-3. Add the collection's skills under `skills/`.
-4. Add one entry to the root `.claude-plugin/marketplace.json` `plugins` array pointing at
-   `./plugins/<collection>`.
+1. Write `agents/city-<name>.md` — frontmatter `name` + `description` (the description
+   is what gets the agent invoked; make the triggers concrete), then the agent's
+   jurisdiction, its skills in order, and its operating rules.
+2. Add its skills under `skills/` (pattern above).
+3. Wire it into the Mayor: a row in the pipeline table, and failure-routing rules in
+   `city-charter` if its phase can fail.
+4. Update the README's city map.
 
-## Quality bar
+## Add a new plugin to the marketplace
 
-- Every skill states a **guardrail**: never sacrifice correctness for the skill's goal.
+1. Create `plugins/<plugin>/.claude-plugin/plugin.json` (`name`, `description`,
+   `version`, `author`).
+2. Build its agents + skills following the Agent City pattern.
+3. Add one entry to the root `.claude-plugin/marketplace.json` `plugins` array pointing
+   at `./plugins/<plugin>`.
+
+## Quality bar — the city's laws apply to contributions too
+
+- Every skill states a **guardrail**; every agent reports honestly (real numbers, real
+  statuses, never claimed unverified).
+- Nothing in the pipeline may merge to main, commit a secret, or take a destructive
+  action without confirmation. New skills must not weaken these laws.
+- The user is interrupted only at sanctioned points (the archivist's consult; safety
+  confirmations). A new agent that needs user input must batch it the same way.
 - Keep `SKILL.md` (model-facing) and `README.md` (human-facing) separate — different
   audiences.
-- Don't invent model IDs, pricing, or limits. Verify against the `/claude-api` reference.
 - Validate JSON before committing:
   ```bash
   python3 -c "import json,glob;[json.load(open(f)) for f in glob.glob('**/*.json',recursive=True)]"
@@ -66,7 +77,8 @@ plugins/<collection>/
 
 ```
 /plugin marketplace add /absolute/path/to/this/repo
-/plugin install <collection>@claude-phoenix-skills-marketplace
+/plugin install agent-city@phoenix-city
 ```
 
-Confirm the skills and orchestrator agent appear, then open a PR.
+Confirm the Mayor and the executive agents appear, run a small end-to-end job ("build me
+a tiny CLI that reverses a string, one pass"), then open a PR.

@@ -1,156 +1,155 @@
-# 🔥 claude-phoenix-skills-marketplace
+# 🔥 Phoenix City
 
-A central, world-installable **marketplace of deployable skills for [Claude Code](https://claude.com/claude-code)**,
-built around **autonomous ML engineering**. Organized into **collections** — each collection is
-an installable plugin orchestrated by an agent.
+**The agent marketplace for [Claude Code](https://claude.com/claude-code).** Home of
+**Agent City** — a city of agents that takes one command and returns a GitHub pull
+request with passing checks: code written, tested, shipped, and stewarded until green.
 
-> **Headline — ML Engineering:** hand the `ml-engineer` agent a prompt or problem statement and
-> it frames the task, preps the data, sweeps and tunes models, and selects a winner — looping
-> until the goal is met, it's blocked, or it hits an iteration cap you set.
+> One command in. A passing pull request out. Never merged to main — that click is yours.
 >
-> **Collections so far:** ML Engineering (train models autonomously from one prompt), Cost
-> Optimization (cut token spend), Coding (agentic coding workflows), Guardrails (safety +
-> quality checks), Documentation (write + maintain docs). More coming.
+> Like the phoenix, the pipeline treats every failure as fuel: a red test or a rejected
+> review doesn't end the run, it routes back through the city and rises again — until the
+> checks burn green or the iteration budget you set runs out.
 
 ---
 
 ## Install
 
-In Claude Code, add the marketplace once, then install the collections you want:
-
 ```
 /plugin marketplace add ruhaans05/claude-phoenix-skills-marketplace
-/plugin install ml-engineering@claude-phoenix-skills-marketplace
-/plugin install cost-optimization@claude-phoenix-skills-marketplace
-/plugin install coding@claude-phoenix-skills-marketplace
-/plugin install guardrails@claude-phoenix-skills-marketplace
-/plugin install documentation@claude-phoenix-skills-marketplace
+/plugin install agent-city@phoenix-city
 ```
 
-The skills and each collection's orchestrator agent become available immediately.
-
----
-
-## Collection: ML Engineering
-
-The repo's headline. Hand the **`ml-engineer`** agent a prompt or problem statement and it runs
-the full ML loop autonomously — writing and running real ML code (pandas / scikit-learn /
-XGBoost / LightGBM / PyTorch) — and **keeps iterating until it's done, blocked, plateaus, or
-reaches an iteration cap you set in the prompt** (default 5 rounds).
-
-| Skill | Step | What it does |
-|-------|------|--------------|
-| **problem-framing** | frame | Prompt/problem statement → ML spec: task type, target, metric, data, **definition of done** (built to later accept a Jira ticket) |
-| **data-prep** | data | Load, clean, split (leakage-safe), feature-engineer; one split reused every round |
-| **model-sweep** | sweep | Baseline + a spread of candidate algorithms, ranked on validation |
-| **train-tune** | tune | Hyperparameter search on the top candidates; validation-only |
-| **evaluate-select** | evaluate | The single held-out test evaluation + leakage/overfit checks; pick the winner |
-| **experiment-loop** | loop | The iteration engine: round counting, error recovery (bounded retries), progress log, continue/stop decision |
-
-**The loop:** frame → prep → sweep → tune → evaluate → decide, repeating. **Stop conditions:**
-done (target met + verified), told to stop, blocked (needs something only you can give), cap
-reached, or plateau. Error recovery is built in — it reads real tracebacks, fixes the cause,
-and retries with a bounded cap rather than dying on the first failure or looping forever.
-
-**Quality first:** the test set is touched exactly once, leakage is actively hunted, metrics
-are reported straight, and hitting the cap is never the goal — if it's done in round 2, it
-stops at round 2.
+Then give the Mayor a job:
 
 ```
-/plugin install ml-engineering@claude-phoenix-skills-marketplace
+build me a URL shortener with Postgres — keep going until the PR passes
 ```
 
-> Roadmap: the framing step will accept a **Jira ticket** as the problem statement — the agent
-> reads the ticket and runs the loop against its acceptance criteria.
+That's the whole interface. The city handles the rest, and only comes back to you for
+database details (credentials, hosting, engine preference) or to confirm anything
+destructive.
 
 ---
 
-## Collection: Cost Optimization
+## The City
 
-Skills + prompts that reduce token usage **during an agent's run** — without sacrificing
-quality. Orchestrated by the **`cost-optimizer`** agent, which diagnoses the situation and
-points at the right skill.
+```
+                         ┌─────────────────────┐
+                         │       🏛️ MAYOR       │
+                         │    (orchestrator)    │
+                         │ starts the pipeline, │
+                         │  ends the pipeline   │
+                         └──────────┬──────────┘
+            ┌──────────────┬───────┴───────┬──────────────┐
+            ▼              ▼               ▼              ▼
+   ┌────────────────┐ ┌─────────────┐ ┌────────────┐ ┌──────────────┐
+   │ 🏗️ CITY-ENGINEER│ │🔍 CITY-     │ │📦 CITY-    │ │🗄️ CITY-      │
+   │  writes the    │ │  INSPECTOR  │ │  COURIER   │ │  ARCHIVIST   │
+   │  code          │ │ writes+runs │ │ opens +    │ │ database —   │
+   │                │ │  the tests  │ │ stewards   │ │ only when    │
+   │                │ │             │ │  the PR    │ │  needed      │
+   └────────────────┘ └─────────────┘ └────────────┘ └──────────────┘
+        executive          executive       executive       executive
+```
 
-| Skill | What it does | Saves |
-|-------|--------------|-------|
-| **model-router** | Routes simple, mechanical subtasks to a cheaper model (Haiku); reserves Opus for hard reasoning. | Model cost per subtask |
-| **context-prune** | Drops stale/dead/superseded context so every following turn pays fewer input tokens. | Input tokens, compounding |
-| **output-compress** | Terse, high-signal output — tables and fragments over prose. | Output tokens (priciest) |
-| **cache-optimizer** | Structures prompts stable-first so Anthropic prompt-cache hits. | Input tokens on reuse |
+### 🏛️ The Mayor — orchestrator
 
-**Orchestrator — `cost-optimizer` agent:** invoke it (or just say "optimize token usage")
-and it tells you the single highest-impact move for your current situation, then names the
-skill to apply.
+Takes your one command, runs the pipeline, and is the only one who declares it done.
+Starts everything, ends everything, routes every failure back to the right department,
+and reports the PR URL with real numbers at the end.
 
-### Quality first
+| Skill | What it does |
+|-------|--------------|
+| **city-charter** | The constitution: phase order, failure routing, iteration bounds, the never-merge-to-main law |
+| **intake** | Parses your command into the work order: requirements, definition of done, database status, iterate-or-not, iteration cap |
 
-Every skill has a guardrail: never trade a correct answer for saved tokens. The cheap path
-is only taken where it doesn't risk the result — security warnings stay verbose, reasoning
-tasks stay on the strong model, context you're actively using is never pruned.
+### 🏗️ City Engineer — writes your code
+
+You prompt it (via the Mayor or directly); it builds. Designs against the existing
+codebase first, then implements in small verified increments. Also the repair bay: every
+red test and rejected review comes back here with a diagnosis.
+
+| Skill | What it does |
+|-------|--------------|
+| **blueprint** | Read-only survey → concrete plan: files, interfaces, data flow, reuse targets, build order |
+| **construct** | Implements the blueprint increment by increment; repair mode fixes diagnosed causes, not symptoms |
+
+### 🔍 City Inspector — writes and runs your tests
+
+Unit tests, integration tests, and at least one end-to-end test that makes your
+definition of done executable. Runs the full suite and triages every failure into a
+diagnosis the engineer can act on.
+
+| Skill | What it does |
+|-------|--------------|
+| **test-forge** | Writes unit + integration tests that would fail on wrong code (each watched failing first) |
+| **test-run** | Runs everything relevant, reports real numbers, classifies every red: code bug / bad test / environment |
+
+### 📦 City Courier — ships and stewards your PR
+
+Delivers the work as a pull request — feature branch, honest description, never main —
+then manages its life: polls CI, reads failing logs, reads review rejections,
+understands *why*, fixes the mechanical, routes the substantive.
+
+| Skill | What it does |
+|-------|--------------|
+| **pr-open** | Feature branch → clean commits → secret sweep → push → PR with a description traceable to real runs |
+| **pr-steward** | Watches checks + reviews; mechanical fixes pushed directly, substantive ones routed back through the pipeline |
+
+### 🗄️ City Archivist — your database, when you need one
+
+Summoned only when the build needs persistence — named in your prompt, or inferred
+mid-pipeline. Home of the pipeline's **single sanctioned user interruption**: one batched
+exchange for engine choice, credentials, and API keys. Then it provisions and proves it.
+
+| Skill | What it does |
+|-------|--------------|
+| **db-consult** | Verifies the need is real, recommends the smallest engine that fits, asks you everything in one exchange |
+| **db-provision** | Creates/connects, schema as committed migrations, env config + `.env.example`, proven with a real write-and-read-back |
 
 ---
 
-## Collection: Coding
+## The pipeline
 
-Agentic workflows that make coding with the Claude Code CLI easier — each skill encodes one
-proven *loop* instead of ad-hoc editing. Orchestrated by the **`coding-orchestrator`** agent,
-which maps your task to the right workflow.
+```
+your command
+  └─► intake          work order: what, done-means, DB?, iterate?, cap
+  └─► db-consult      only if DB named or inferred  ← the one user interruption
+  └─► blueprint       design against the existing code
+  └─► construct       build it
+  └─► db-provision    only if consult ran
+  └─► test-forge      write the tests
+  └─► test-run ──red────► construct (with diagnosis)     ┐
+  └─► pr-open         feature branch → push → PR          │  loops until green,
+  └─► pr-steward ──red──► construct (with analysis)       ┘  capped (default 5)
+  └─► final report    PR URL, real test numbers, check status, what remains
+```
 
-| Skill | What it does | The loop |
-|-------|--------------|----------|
-| **explore-first** | Maps relevant code + existing patterns before writing, so you reuse instead of duplicate. | Ask → search read-only → record `file:line` facts → plan |
-| **tdd-loop** | Drives a feature test-first against real test output. | Red → green → refactor |
-| **debug-rca** | Roots out the real cause instead of guess-patching. | Reproduce → isolate → fix cause → verify |
-| **safe-refactor** | Restructures without changing behavior, under a test net. | Net → small step → re-run → repeat |
-| **ship-it** | Gates the change before it lands. | Review diff → run checks → commit/PR → push |
+**Stop conditions:** PR open and passing (done) · iteration cap reached · plateau (two
+loops, no progress) · you opted out of iteration ("just open the PR") · blocked on
+something only you can provide. Every stop ends with a truthful report — never a dressed-
+up one.
 
-**Typical feature:** `explore-first` → `tdd-loop` → `ship-it`.
-**Typical bug:** `debug-rca` → `tdd-loop` (lock the fix) → `ship-it`.
-
-Every skill shares the same principles: look before you write, verify with the real thing
-(run it, don't just read), small reversible steps, match the surrounding code, report
-faithfully.
-
----
-
-## Collection: Guardrails
-
-Safety and quality checks that fire at the risky moments of an agentic run — before something
-irreversible, leaky, or unverified happens. Orchestrated by the **`guardrails-orchestrator`**
-agent, which watches for the risky moment and invokes the matching check.
-
-| Skill | Fires when | Prevents |
-|-------|-----------|----------|
-| **no-destruction** | About to run a hard-to-reverse command (delete, overwrite, force-push, `DROP`, prod write) | Irreversible damage from an unconfirmed action |
-| **secret-guard** | About to commit/log/print anything credential-shaped | Leaking keys, tokens, `.env` values |
-| **scope-guard** | Edits drift beyond what was asked | Scope creep — unrelated changes riding along |
-| **dep-guard** | About to add/upgrade a dependency | Supply-chain risk: typosquats, unvetted/bloated packages |
-| **verify-before-done** | About to say "done" / "fixed" / "works" | False completion claims that weren't run |
-
-These compose with the other collections — `ship-it` already leans on several of them; this collection
-makes the checks explicit and reusable everywhere. Core stance: default to caution on
-anything irreversible or outward-facing, look at the target before destroying it, and report
-honestly.
+**Immutable laws:** never merge to main · never claim unverified results · never widen
+scope past the work order · never bury a failure in a success claim.
 
 ---
 
-## Collection: Documentation
+## Examples
 
-Skills that write and maintain docs as part of the coding loop — accurate to the code,
-matched to the audience, kept current. Orchestrated by the **`documentation-orchestrator`**
-agent, which maps the doc need to the right skill.
+```
+# Full autonomous run
+build me a REST API for a todo app with auth, keep going until the PR is green
 
-| Skill | For | Output |
-|-------|-----|--------|
-| **docstring-gen** | Explaining functions/classes inline | Docstrings in the project's convention, describing real behavior |
-| **readme-craft** | The project front door | A README a newcomer can act on in minutes |
-| **changelog-keep** | Recording what changed | CHANGELOG entries in Keep a Changelog format |
-| **api-docs** | A public API surface | Params, returns, errors, working examples per entry |
-| **doc-sync** | After a code change | Stale docs found and updated to match new behavior |
+# Database named up front — archivist consults before construction
+build a waitlist signup page backed by Supabase
 
-The rule under all of them: **document what the code actually does** — verified by reading
-it, matched to the audience and the existing style, no more than needed. A confident wrong
-doc is the most damaging kind.
+# One pass, no iteration
+add rate limiting to the API and just open the PR — don't loop on CI
+
+# Custom iteration budget
+build a markdown blog engine, cap it at 3 iterations
+```
 
 ---
 
@@ -158,75 +157,46 @@ doc is the most damaging kind.
 
 ```
 claude-phoenix-skills-marketplace/
-├── .claude-plugin/marketplace.json     # lists every collection
+├── .claude-plugin/marketplace.json        # the Phoenix City marketplace
 └── plugins/
-    ├── ml-engineering/                 # headline collection
-    │   ├── .claude-plugin/plugin.json
-    │   ├── agents/ml-engineer.md        # autonomous ML orchestrator
-    │   └── skills/
-    │       ├── problem-framing/
-    │       ├── data-prep/
-    │       ├── model-sweep/
-    │       ├── train-tune/
-    │       ├── evaluate-select/
-    │       └── experiment-loop/
-    ├── cost-optimization/              # one collection = one installable plugin
-    │   ├── .claude-plugin/plugin.json
-    │   ├── agents/cost-optimizer.md    # orchestrator for the collection
-    │   └── skills/                     # the skills in the collection
-    │       ├── model-router/
-    │       ├── context-prune/
-    │       ├── output-compress/
-    │       └── cache-optimizer/
-    ├── coding/
-    │   ├── .claude-plugin/plugin.json
-    │   ├── agents/coding-orchestrator.md
-    │   └── skills/
-    │       ├── explore-first/
-    │       ├── tdd-loop/
-    │       ├── debug-rca/
-    │       ├── safe-refactor/
-    │       └── ship-it/
-    ├── guardrails/
-    │   ├── .claude-plugin/plugin.json
-    │   ├── agents/guardrails-orchestrator.md
-    │   └── skills/
-    │       ├── no-destruction/
-    │       ├── secret-guard/
-    │       ├── scope-guard/
-    │       ├── dep-guard/
-    │       └── verify-before-done/
-    └── documentation/
+    └── agent-city/                        # the city, one installable plugin
         ├── .claude-plugin/plugin.json
-        ├── agents/documentation-orchestrator.md
+        ├── agents/
+        │   ├── mayor.md                   # orchestrator
+        │   ├── city-engineer.md           # executive: code
+        │   ├── city-inspector.md          # executive: tests
+        │   ├── city-courier.md            # executive: PR/deploy
+        │   └── city-archivist.md          # executive: database (conditional)
         └── skills/
-            ├── docstring-gen/
-            ├── readme-craft/
-            ├── changelog-keep/
-            ├── api-docs/
-            └── doc-sync/
+            ├── city-charter/   intake/        # mayor
+            ├── blueprint/      construct/     # engineer
+            ├── test-forge/     test-run/      # inspector
+            ├── pr-open/        pr-steward/    # courier
+            └── db-consult/     db-provision/  # archivist
 ```
 
-Each **collection** is a self-contained plugin you can install on its own. Adding a new
-collection = a new `plugins/<collection>/` directory + one entry in `marketplace.json`. See
+Each skill ships as `SKILL.md` (the model-facing contract) plus `README.md` (the
+human-facing explainer). New districts — more agents, more skills — are welcome: see
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
 ## Roadmap
 
-- ✅ **ML Engineering** — autonomous model training from a single prompt (headline)
-- 🔜 ML Engineering: **Jira ticket** as the problem-statement input source
-- ✅ **Cost Optimization** — token/cost savings during a run
-- ✅ **Coding** — agentic coding workflows for the CLI
-- ✅ **Guardrails** — safety + quality checks at the risky moments
-- ✅ **Documentation** — write + maintain docs that stay true to the code
-- 🔜 More collections (testing, performance, …) — contributions welcome
+- ✅ **Agent City v1** — Mayor + four executive agents, one command → passing PR
+- 🔜 **City Planner** — a review agent that critiques the blueprint before construction
+- 🔜 **Night Watch** — scheduled stewardship: keep tending PRs after the session ends
+- 🔜 More districts — observability, performance, security audit. Contributions welcome.
 
 ---
 
 ## Privacy & License
 
-- These skills run **locally** inside Claude Code and collect/transmit no data of their own.
+- Agent City is plain text — Markdown agent definitions, skill instructions, JSON
+  manifests. It runs **locally** inside Claude Code and collects nothing.
   See [PRIVACY.md](PRIVACY.md).
 - Licensed under [MIT](LICENSE).
+
+---
+
+*Phoenix City — where failed runs rise again.* 🔥

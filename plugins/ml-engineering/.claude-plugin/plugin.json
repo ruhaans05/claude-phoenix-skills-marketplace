@@ -1,9 +1,0 @@
-{
-  "name": "ml-engineering",
-  "description": "Autonomous ML engineering: the ml-engineer agent turns a prompt or problem statement into a trained, evaluated model, looping through framing, data prep, model sweeps, tuning, and selection until done, blocked, or a user-set iteration cap. Skills: problem-framing, data-prep, model-sweep, train-tune, evaluate-select, experiment-loop.",
-  "version": "0.1.0",
-  "author": {
-    "name": "ruhaans05",
-    "url": "https://github.com/ruhaans05"
-  }
-}

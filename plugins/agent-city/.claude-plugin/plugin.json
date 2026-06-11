@@ -1,0 +1,9 @@
+{
+  "name": "agent-city",
+  "description": "A city of agents that builds software end-to-end from one command. The Mayor orchestrates; the executive agents execute: city-engineer (writes code), city-inspector (writes + runs tests), city-courier (opens + stewards the GitHub PR), city-archivist (provisions a database when needed). The pipeline loops until the pull request passes — and never merges to main.",
+  "version": "1.0.0",
+  "author": {
+    "name": "ruhaans05",
+    "url": "https://github.com/ruhaans05"
+  }
+}

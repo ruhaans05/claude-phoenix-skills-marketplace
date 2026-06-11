@@ -1,40 +1,16 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-phoenix-skills-marketplace",
-  "description": "Deployable Claude Code skills, organized into collections. First collection: cost optimization — cut token spend on every agent run.",
+  "name": "phoenix-city",
+  "description": "Phoenix City: a Claude Code agent marketplace built around Agent City — a city of agents that writes, tests, and ships your code to a GitHub pull request from a single command, rising from every failure until the checks burn green.",
   "owner": {
     "name": "ruhaans05",
     "url": "https://github.com/ruhaans05"
   },
   "plugins": [
     {
-      "name": "ml-engineering",
-      "description": "Autonomous ML engineering: the ml-engineer agent turns a prompt or problem statement into a trained, evaluated model, looping until done, blocked, or a user-set iteration cap. Skills: problem-framing, data-prep, model-sweep, train-tune, evaluate-select, experiment-loop.",
-      "source": "./plugins/ml-engineering",
-      "category": "productivity"
-    },
-    {
-      "name": "cost-optimization",
-      "description": "Token/cost-optimization skills + orchestrator agent: model routing, context pruning, output compression, prompt-cache optimization.",
-      "source": "./plugins/cost-optimization",
-      "category": "productivity"
-    },
-    {
-      "name": "coding",
-      "description": "Agentic coding workflows + orchestrator agent: explore-first, tdd-loop, debug-rca, safe-refactor, ship-it.",
-      "source": "./plugins/coding",
-      "category": "productivity"
-    },
-    {
-      "name": "guardrails",
-      "description": "Safety and quality guardrails + orchestrator agent: no-destruction, secret-guard, scope-guard, dep-guard, verify-before-done.",
-      "source": "./plugins/guardrails",
-      "category": "productivity"
-    },
-    {
-      "name": "documentation",
-      "description": "Documentation skills + orchestrator agent: docstring-gen, readme-craft, changelog-keep, api-docs, doc-sync.",
-      "source": "./plugins/documentation",
+      "name": "agent-city",
+      "description": "Agent City: an orchestrated city of agents. The Mayor runs the pipeline; the executive agents do the work — city-engineer writes the code, city-inspector writes and runs the tests, city-courier opens and stewards the GitHub pull request, city-archivist provisions a database when one is needed. One command in, a passing pull request out. Never merges to main.",
+      "source": "./plugins/agent-city",
       "category": "productivity"
     }
   ]

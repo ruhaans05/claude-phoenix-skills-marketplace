@@ -1,9 +1,0 @@
-{
-  "name": "coding",
-  "description": "Agentic coding workflows for Claude Code CLI: explore-first, tdd-loop, debug-rca, safe-refactor, ship-it, orchestrated by the coding-orchestrator agent.",
-  "version": "0.1.0",
-  "author": {
-    "name": "ruhaans05",
-    "url": "https://github.com/ruhaans05"
-  }
-}
