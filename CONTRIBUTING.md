@@ -1,27 +1,27 @@
 # Contributing
 
 Thanks for helping grow the marketplace. Two kinds of contributions: **add a skill to an
-existing area**, or **add a whole new area**.
+existing collection**, or **add a whole new collection**.
 
 ## Repo model
 
 - The repo is a **Claude Code plugin marketplace**. The root `.claude-plugin/marketplace.json`
-  lists every area.
-- Each **area** is one installable **plugin** under `plugins/<area>/`, with its own
+  lists every collection.
+- Each **collection** is one installable **plugin** under `plugins/<collection>/`, with its own
   `.claude-plugin/plugin.json`, an `agents/` orchestrator, and a `skills/` directory.
 
 ```
-plugins/<area>/
+plugins/<collection>/
 ├── .claude-plugin/plugin.json
-├── agents/<area>-orchestrator.md   # routes the area's skills
+├── agents/<collection>-orchestrator.md   # routes the collection's skills
 └── skills/<skill-name>/
-    ├── SKILL.md                    # LLM-facing prompt body (+ YAML frontmatter)
-    └── README.md                   # human-facing explainer
+    ├── SKILL.md                          # LLM-facing prompt body (+ YAML frontmatter)
+    └── README.md                         # human-facing explainer
 ```
 
-## Add a skill to an existing area
+## Add a skill to an existing collection
 
-1. Create `plugins/<area>/skills/<skill-name>/`.
+1. Create `plugins/<collection>/skills/<skill-name>/`.
 2. Write `SKILL.md` with YAML frontmatter:
    ```yaml
    ---
@@ -32,24 +32,24 @@ plugins/<area>/
    ```
    Then the prompt body — concrete rules, a worked example, and a guardrails section.
 3. Write a short `README.md` (what it does, why it helps, the guardrail, trigger phrases).
-4. If the area has an orchestrator agent, add a row for the new skill to its routing table.
+4. If the collection has an orchestrator agent, add a row for the new skill to its routing table.
 
-## Add a new area
+## Add a new collection
 
-1. Create `plugins/<area>/.claude-plugin/plugin.json`:
+1. Create `plugins/<collection>/.claude-plugin/plugin.json`:
    ```json
    {
-     "name": "<area>",
+     "name": "<collection>",
      "description": "...",
      "version": "0.1.0",
      "author": { "name": "ruhaans05", "url": "https://github.com/ruhaans05" }
    }
    ```
-2. Add an `agents/<area>-orchestrator.md` that diagnoses a situation and routes to the
-   area's skills (see `plugins/cost-optimization/agents/cost-optimizer.md`).
-3. Add the area's skills under `skills/`.
+2. Add an `agents/<collection>-orchestrator.md` that diagnoses a situation and routes to the
+   collection's skills (see `plugins/cost-optimization/agents/cost-optimizer.md`).
+3. Add the collection's skills under `skills/`.
 4. Add one entry to the root `.claude-plugin/marketplace.json` `plugins` array pointing at
-   `./plugins/<area>`.
+   `./plugins/<collection>`.
 
 ## Quality bar
 
@@ -66,7 +66,7 @@ plugins/<area>/
 
 ```
 /plugin marketplace add /absolute/path/to/this/repo
-/plugin install <area>@claude-phoenix-skills-marketplace
+/plugin install <collection>@claude-phoenix-skills-marketplace
 ```
 
 Confirm the skills and orchestrator agent appear, then open a PR.

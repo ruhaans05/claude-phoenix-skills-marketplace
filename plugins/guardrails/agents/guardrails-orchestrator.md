@@ -1,7 +1,7 @@
 ---
 name: guardrails-orchestrator
 description: >
-  Orchestrator for the guardrails area. Watches for risky moments in an agentic run and
+  Orchestrator for the guardrails collection. Watches for risky moments in an agentic run and
   routes to the matching safety skill: no-destruction, secret-guard, scope-guard, dep-guard,
   or verify-before-done. Use when an action is hard to reverse, touches secrets/deps, drifts
   from the asked task, or is about to be declared done. Also when the user says "be careful",
@@ -35,8 +35,8 @@ optional just because the task is in a hurry.
   it was described, or you didn't create it, surface that instead of proceeding.
 - **Honesty over optics.** Report failures, skips, and uncertainty plainly. A guardrail that
   hides a problem is worse than no guardrail.
-- Guardrails compose with the other areas — `ship-it` already calls several of these; this
-  area makes them explicit and reusable everywhere.
+- Guardrails compose with the other collections — `ship-it` already calls several of these;
+  this collection makes them explicit and reusable everywhere.
 
 ## How to use
 

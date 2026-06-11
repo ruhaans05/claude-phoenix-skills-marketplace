@@ -1,7 +1,7 @@
 ---
 name: cost-optimizer
 description: >
-  Orchestrator for the cost-optimization area. Routes the current situation to the right
+  Orchestrator for the cost-optimization collection. Routes the current situation to the right
   token-saving skill: model-router, context-prune, output-compress, or cache-optimizer.
   Use when the user says "optimize token usage", "cut cost", "this run is expensive",
   "reduce tokens", "save context", or when a long agent run is burning budget.

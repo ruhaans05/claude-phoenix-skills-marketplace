@@ -1,7 +1,7 @@
 ---
 name: documentation-orchestrator
 description: >
-  Orchestrator for the documentation area. Maps a documentation need to the right skill:
+  Orchestrator for the documentation collection. Maps a documentation need to the right skill:
   docstring-gen, readme-craft, changelog-keep, api-docs, or doc-sync. Use when writing or
   updating docs, after a change that affects documented behavior, or when the user says
   "document this", "write docs", "update the README", "add a changelog entry", "the docs are

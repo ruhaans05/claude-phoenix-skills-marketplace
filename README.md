@@ -1,9 +1,9 @@
 # 🔥 claude-phoenix-skills-marketplace
 
 A central, world-installable **marketplace of deployable skills for [Claude Code](https://claude.com/claude-code)**.
-Organized into **areas** — each area is an installable plugin orchestrated by an agent.
+Organized into **collections** — each collection is an installable plugin orchestrated by an agent.
 
-> **Areas so far:** Cost Optimization (cut token spend), Coding (agentic coding workflows for
+> **Collections so far:** Cost Optimization (cut token spend), Coding (agentic coding workflows for
 > the CLI), Guardrails (safety + quality checks), and Documentation (write + maintain docs).
 > More coming.
 
@@ -11,7 +11,7 @@ Organized into **areas** — each area is an installable plugin orchestrated by 
 
 ## Install
 
-In Claude Code, add the marketplace once, then install the areas you want:
+In Claude Code, add the marketplace once, then install the collections you want:
 
 ```
 /plugin marketplace add ruhaans05/claude-phoenix-skills-marketplace
@@ -21,11 +21,11 @@ In Claude Code, add the marketplace once, then install the areas you want:
 /plugin install documentation@claude-phoenix-skills-marketplace
 ```
 
-The skills and each area's orchestrator agent become available immediately.
+The skills and each collection's orchestrator agent become available immediately.
 
 ---
 
-## Area: Cost Optimization
+## Collection: Cost Optimization
 
 Skills + prompts that reduce token usage **during an agent's run** — without sacrificing
 quality. Orchestrated by the **`cost-optimizer`** agent, which diagnoses the situation and
@@ -50,7 +50,7 @@ tasks stay on the strong model, context you're actively using is never pruned.
 
 ---
 
-## Area: Coding
+## Collection: Coding
 
 Agentic workflows that make coding with the Claude Code CLI easier — each skill encodes one
 proven *loop* instead of ad-hoc editing. Orchestrated by the **`coding-orchestrator`** agent,
@@ -73,7 +73,7 @@ faithfully.
 
 ---
 
-## Area: Guardrails
+## Collection: Guardrails
 
 Safety and quality checks that fire at the risky moments of an agentic run — before something
 irreversible, leaky, or unverified happens. Orchestrated by the **`guardrails-orchestrator`**
@@ -87,14 +87,14 @@ agent, which watches for the risky moment and invokes the matching check.
 | **dep-guard** | About to add/upgrade a dependency | Supply-chain risk: typosquats, unvetted/bloated packages |
 | **verify-before-done** | About to say "done" / "fixed" / "works" | False completion claims that weren't run |
 
-These compose with the other areas — `ship-it` already leans on several of them; this area
+These compose with the other collections — `ship-it` already leans on several of them; this collection
 makes the checks explicit and reusable everywhere. Core stance: default to caution on
 anything irreversible or outward-facing, look at the target before destroying it, and report
 honestly.
 
 ---
 
-## Area: Documentation
+## Collection: Documentation
 
 Skills that write and maintain docs as part of the coding loop — accurate to the code,
 matched to the audience, kept current. Orchestrated by the **`documentation-orchestrator`**
@@ -118,12 +118,12 @@ doc is the most damaging kind.
 
 ```
 claude-phoenix-skills-marketplace/
-├── .claude-plugin/marketplace.json     # lists every area/plugin
+├── .claude-plugin/marketplace.json     # lists every collection
 └── plugins/
-    ├── cost-optimization/              # one area = one installable plugin
+    ├── cost-optimization/              # one collection = one installable plugin
     │   ├── .claude-plugin/plugin.json
-    │   ├── agents/cost-optimizer.md    # orchestrator for the area
-    │   └── skills/                     # the skills in the area
+    │   ├── agents/cost-optimizer.md    # orchestrator for the collection
+    │   └── skills/                     # the skills in the collection
     │       ├── model-router/
     │       ├── context-prune/
     │       ├── output-compress/
@@ -157,8 +157,8 @@ claude-phoenix-skills-marketplace/
             └── doc-sync/
 ```
 
-Each **area** is a self-contained plugin you can install on its own. Adding a new area =
-a new `plugins/<area>/` directory + one entry in `marketplace.json`. See
+Each **collection** is a self-contained plugin you can install on its own. Adding a new
+collection = a new `plugins/<collection>/` directory + one entry in `marketplace.json`. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
@@ -169,7 +169,7 @@ a new `plugins/<area>/` directory + one entry in `marketplace.json`. See
 - ✅ **Coding** — agentic coding workflows for the CLI
 - ✅ **Guardrails** — safety + quality checks at the risky moments
 - ✅ **Documentation** — write + maintain docs that stay true to the code
-- 🔜 More areas (testing, performance, …) — contributions welcome
+- 🔜 More collections (testing, performance, …) — contributions welcome
 
 ---
 

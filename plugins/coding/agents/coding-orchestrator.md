@@ -1,7 +1,7 @@
 ---
 name: coding-orchestrator
 description: >
-  Orchestrator for the coding area. Maps a coding task to the right agentic workflow skill:
+  Orchestrator for the coding collection. Maps a coding task to the right agentic workflow skill:
   explore-first, tdd-loop, debug-rca, safe-refactor, or ship-it. Use when starting a coding
   task, when the user says "help me code this", "fix this bug", "refactor", "add a feature",
   "get this ready to commit", or when a task needs a disciplined process instead of ad-hoc edits.

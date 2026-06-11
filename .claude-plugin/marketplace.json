@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-phoenix-skills-marketplace",
-  "description": "Deployable Claude Code skills, organized by area. First area: cost optimization — cut token spend on every agent run.",
+  "description": "Deployable Claude Code skills, organized into collections. First collection: cost optimization — cut token spend on every agent run.",
   "owner": {
     "name": "ruhaans05",
     "url": "https://github.com/ruhaans05"
