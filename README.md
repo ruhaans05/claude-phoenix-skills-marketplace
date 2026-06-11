@@ -32,6 +32,10 @@ things: database details (credentials, hosting, engine preference) and confirmat
 before anything destructive. Everything else it decides and discloses in the final
 report.
 
+New to multi-agent systems, or want to understand how this one is put together before
+running it? Read [the guide](GUIDE.md) — it teaches how a city of agents works, start to
+finish, using this one as the worked example.
+
 ## The agents
 
 **The Mayor** is the orchestrator. It parses your command into a work order, runs the
