@@ -1,11 +1,16 @@
 # 🔥 claude-phoenix-skills-marketplace
 
-A central, world-installable **marketplace of deployable skills for [Claude Code](https://claude.com/claude-code)**.
-Organized into **collections** — each collection is an installable plugin orchestrated by an agent.
+A central, world-installable **marketplace of deployable skills for [Claude Code](https://claude.com/claude-code)**,
+built around **autonomous ML engineering**. Organized into **collections** — each collection is
+an installable plugin orchestrated by an agent.
 
-> **Collections so far:** Cost Optimization (cut token spend), Coding (agentic coding workflows for
-> the CLI), Guardrails (safety + quality checks), and Documentation (write + maintain docs).
-> More coming.
+> **Headline — ML Engineering:** hand the `ml-engineer` agent a prompt or problem statement and
+> it frames the task, preps the data, sweeps and tunes models, and selects a winner — looping
+> until the goal is met, it's blocked, or it hits an iteration cap you set.
+>
+> **Collections so far:** ML Engineering (train models autonomously from one prompt), Cost
+> Optimization (cut token spend), Coding (agentic coding workflows), Guardrails (safety +
+> quality checks), Documentation (write + maintain docs). More coming.
 
 ---
 
@@ -15,6 +20,7 @@ In Claude Code, add the marketplace once, then install the collections you want:
 
 ```
 /plugin marketplace add ruhaans05/claude-phoenix-skills-marketplace
+/plugin install ml-engineering@claude-phoenix-skills-marketplace
 /plugin install cost-optimization@claude-phoenix-skills-marketplace
 /plugin install coding@claude-phoenix-skills-marketplace
 /plugin install guardrails@claude-phoenix-skills-marketplace
@@ -22,6 +28,40 @@ In Claude Code, add the marketplace once, then install the collections you want:
 ```
 
 The skills and each collection's orchestrator agent become available immediately.
+
+---
+
+## Collection: ML Engineering
+
+The repo's headline. Hand the **`ml-engineer`** agent a prompt or problem statement and it runs
+the full ML loop autonomously — writing and running real ML code (pandas / scikit-learn /
+XGBoost / LightGBM / PyTorch) — and **keeps iterating until it's done, blocked, plateaus, or
+reaches an iteration cap you set in the prompt** (default 5 rounds).
+
+| Skill | Step | What it does |
+|-------|------|--------------|
+| **problem-framing** | frame | Prompt/problem statement → ML spec: task type, target, metric, data, **definition of done** (built to later accept a Jira ticket) |
+| **data-prep** | data | Load, clean, split (leakage-safe), feature-engineer; one split reused every round |
+| **model-sweep** | sweep | Baseline + a spread of candidate algorithms, ranked on validation |
+| **train-tune** | tune | Hyperparameter search on the top candidates; validation-only |
+| **evaluate-select** | evaluate | The single held-out test evaluation + leakage/overfit checks; pick the winner |
+| **experiment-loop** | loop | The iteration engine: round counting, error recovery (bounded retries), progress log, continue/stop decision |
+
+**The loop:** frame → prep → sweep → tune → evaluate → decide, repeating. **Stop conditions:**
+done (target met + verified), told to stop, blocked (needs something only you can give), cap
+reached, or plateau. Error recovery is built in — it reads real tracebacks, fixes the cause,
+and retries with a bounded cap rather than dying on the first failure or looping forever.
+
+**Quality first:** the test set is touched exactly once, leakage is actively hunted, metrics
+are reported straight, and hitting the cap is never the goal — if it's done in round 2, it
+stops at round 2.
+
+```
+/plugin install ml-engineering@claude-phoenix-skills-marketplace
+```
+
+> Roadmap: the framing step will accept a **Jira ticket** as the problem statement — the agent
+> reads the ticket and runs the loop against its acceptance criteria.
 
 ---
 
@@ -120,6 +160,16 @@ doc is the most damaging kind.
 claude-phoenix-skills-marketplace/
 ├── .claude-plugin/marketplace.json     # lists every collection
 └── plugins/
+    ├── ml-engineering/                 # headline collection
+    │   ├── .claude-plugin/plugin.json
+    │   ├── agents/ml-engineer.md        # autonomous ML orchestrator
+    │   └── skills/
+    │       ├── problem-framing/
+    │       ├── data-prep/
+    │       ├── model-sweep/
+    │       ├── train-tune/
+    │       ├── evaluate-select/
+    │       └── experiment-loop/
     ├── cost-optimization/              # one collection = one installable plugin
     │   ├── .claude-plugin/plugin.json
     │   ├── agents/cost-optimizer.md    # orchestrator for the collection
@@ -165,6 +215,8 @@ collection = a new `plugins/<collection>/` directory + one entry in `marketplace
 
 ## Roadmap
 
+- ✅ **ML Engineering** — autonomous model training from a single prompt (headline)
+- 🔜 ML Engineering: **Jira ticket** as the problem-statement input source
 - ✅ **Cost Optimization** — token/cost savings during a run
 - ✅ **Coding** — agentic coding workflows for the CLI
 - ✅ **Guardrails** — safety + quality checks at the risky moments

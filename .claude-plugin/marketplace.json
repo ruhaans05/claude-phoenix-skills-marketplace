@@ -8,6 +8,12 @@
   },
   "plugins": [
     {
+      "name": "ml-engineering",
+      "description": "Autonomous ML engineering: the ml-engineer agent turns a prompt or problem statement into a trained, evaluated model, looping until done, blocked, or a user-set iteration cap. Skills: problem-framing, data-prep, model-sweep, train-tune, evaluate-select, experiment-loop.",
+      "source": "./plugins/ml-engineering",
+      "category": "productivity"
+    },
+    {
       "name": "cost-optimization",
       "description": "Token/cost-optimization skills + orchestrator agent: model routing, context pruning, output compression, prompt-cache optimization.",
       "source": "./plugins/cost-optimization",
