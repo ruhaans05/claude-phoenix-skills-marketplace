@@ -141,6 +141,15 @@ live in a gitignored `.env`; the committed file is `.env.example` with placehold
 the courier sweeps the diff for anything credential-shaped before every push, because
 the last cheap place to catch a leaked key is before it's published.
 
+And the laws have an enforcer. The **city-marshal** is an agent with no phase of its
+own — it rides every phase read-only, running checkpoint sweeps (`patrol`) for request
+legitimacy, license compliance, secrets and PII, authorized targets, and the charter
+itself. It's the one agent with halt authority, and not even the orchestrator can route
+around it. That's the structural version of an ethics policy: not a paragraph promising
+good behavior, but a separate jurisdiction whose only job is to check — the same
+separation-of-powers move as the builder/verifier split, applied to ethics and law. The
+full stance is in [ETHICS.md](ETHICS.md).
+
 ## 6. A full run, start to finish
 
 Theory done. Here's what actually happens when you type:

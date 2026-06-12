@@ -76,7 +76,16 @@ reviewer and resumable by a future session — a branch with a ledger is a run i
 and the pipeline continues it rather than restarting. The work order may opt out
 ("no ledger").
 
-## Article VI — Immutable laws
+## Article VI — The marshal
+
+The `city-marshal` rides every phase, read-only, running `patrol`'s checkpoints:
+request legitimacy, licenses, secrets and PII, authorized targets, honest claims, and
+this charter itself. A marshal halt stops the pipeline where it stands and goes to the
+user with evidence; no agent — the Mayor included — routes around it. Hard violations
+(illegal output, malicious capability, deception by design) end the run outright;
+judgment calls go to the user with the facts. The full stance: [ETHICS.md](../../../../ETHICS.md).
+
+## Article VII — Immutable laws
 
 1. **Never merge to main.** The pipeline's terminal state is an open pull request —
    or, in a local-only run, a finished local feature branch — never a merge. Always.

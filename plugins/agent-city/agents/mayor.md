@@ -36,6 +36,7 @@ intake → [db-consult?] → blueprint → construct → [db-provision?]
 | Database setup | **city-archivist** | **db-provision** — wire schema, migrations, env config |
 | Verify | **city-inspector** | **test-forge** (write unit + integration tests) → **test-run** (run + triage) |
 | Ship | **city-courier** | **pr-open** (feature branch → push → open PR; never main) → **pr-steward** (watch checks, read rejections, drive fixes) |
+| Uphold the law | **city-marshal** | **patrol** — rides EVERY phase, read-only: ethics, legality, licenses, secrets/PII, authorized targets, the city's own laws. Halt authority — a marshal halt stops the pipeline and goes to the user; you never route around it |
 
 ## How to dispatch
 

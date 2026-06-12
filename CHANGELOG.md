@@ -3,6 +3,22 @@
 All notable changes to the Phoenix City marketplace and the Agent City plugin.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.3.0] — 2026-06-11
+
+### Added
+- `city-marshal` agent — Agent City's police. Owns no phase; rides every phase
+  read-only with halt authority no agent (the Mayor included) can route around.
+- `patrol` skill — checkpoint sweeps at every phase transition: request legitimacy,
+  license compliance, secrets/PII, authorized targets, honest claims, and the charter
+  itself. Hard violations end the run; judgment calls go to the user with evidence.
+- [ETHICS.md](ETHICS.md) — the stance: safety as a property of well-engineered
+  systems, firm floors with human judgment above them, every checkpoint logged to the
+  ledger so a clean run is provably clean.
+
+### Changed
+- Charter: new Article VI (the marshal); immutable laws renumbered to Article VII.
+- Mayor: marshal row in the pipeline table — a marshal halt is never routed around.
+
 ## [1.2.0] — 2026-06-11
 
 ### Added

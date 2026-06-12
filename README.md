@@ -5,7 +5,8 @@
 # Phoenix City
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
-[![Plugin: agent-city 1.2.0](https://img.shields.io/badge/agent--city-1.2.0-ff5e8a.svg)](plugins/agent-city)
+[![Plugin: agent-city 1.3.0](https://img.shields.io/badge/agent--city-1.3.0-ff5e8a.svg)](plugins/agent-city)
+[![Ethics: enforced by the marshal](https://img.shields.io/badge/ethics-enforced%20by%20the%20marshal-ffb347.svg)](ETHICS.md)
 [![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-7df0c0.svg)](https://claude.com/claude-code)
 
 An agent marketplace for [Claude Code](https://claude.com/claude-code). It ships one
@@ -114,6 +115,14 @@ The other four are the executive agents. Each owns a phase:
   committed migrations, app wired through one seam, `.env` gitignored with a committed
   `.env.example` — and proves it with a real write-and-read-back before reporting done.
 
+- **city-marshal** is the police. It owns no phase — it rides all of them, read-only,
+  running `patrol`'s checkpoints: is the request something the city should build at all,
+  are the licenses clean, is anything credential-shaped headed for a commit, is personal
+  data being collected beyond need, do the PR's claims match what actually ran. It's the
+  one agent with halt authority, and it can't be routed around — not even by the Mayor.
+  Violations stop the run and go to *you*, with evidence. The full stance is in
+  [ETHICS.md](ETHICS.md).
+
 ## The pipeline
 
 ```
@@ -197,13 +206,15 @@ plugins/agent-city/
 │   ├── city-engineer.md               # code
 │   ├── city-inspector.md              # tests
 │   ├── city-courier.md                # PR / delivery
-│   └── city-archivist.md              # database (conditional)
+│   ├── city-archivist.md              # database (conditional)
+│   └── city-marshal.md                # police: ethics + law, rides every phase
 └── skills/
     ├── city-charter/  intake/  city-ledger/      # mayor
     ├── blueprint/     construct/                  # engineer
     ├── test-forge/    test-run/                   # inspector
     ├── groundbreak/   pr-open/  pr-steward/       # courier
-    └── db-consult/    db-provision/               # archivist
+    ├── db-consult/    db-provision/               # archivist
+    └── patrol/                                    # marshal
 ```
 
 Each skill is a `SKILL.md` (the model-facing contract) plus a `README.md` (the
@@ -217,15 +228,20 @@ existing agent? See [CONTRIBUTING.md](CONTRIBUTING.md).
       reviewer-auditable PRs ([CHANGELOG](CHANGELOG.md))
 - [x] v1.2 — `groundbreak`: start from a completely empty folder; local-only fallback
       when GitHub isn't available
+- [x] v1.3 — the marshal: ethics and law enforcement riding every phase, with halt
+      authority ([ETHICS.md](ETHICS.md))
 - [ ] City Planner — a review agent that critiques the blueprint before construction
 - [ ] Night Watch — scheduled stewardship, tending open PRs after the session ends
 - [ ] More districts: observability, performance, security audit
 
-## Privacy & license
+## Privacy, ethics & license
 
 Agent City is plain text — Markdown agent definitions, skill files, JSON manifests. It
 runs locally inside Claude Code, makes no network calls of its own, and collects nothing.
 Anything the pipeline does (pushing branches, opening PRs, connecting to a database)
 happens on your machine with your own credentials. Details in [PRIVACY.md](PRIVACY.md).
+
+The city polices itself: [ETHICS.md](ETHICS.md) covers what it won't build, how the
+marshal enforces that on every run, and where the hard lines sit.
 
 MIT licensed — see [LICENSE](LICENSE).
