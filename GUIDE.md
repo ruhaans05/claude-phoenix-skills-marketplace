@@ -91,17 +91,25 @@ The whole point of a pipeline is that you type one command and walk away. Every 
 system comes back with a question, it spends that. So a well-designed system decides, in
 advance, exactly when it's allowed to interrupt you — and batches ruthlessly.
 
-Agent City permits exactly two interruptions:
+Agent City permits exactly three interruptions:
 
-1. **The archivist's consult.** Databases genuinely need you: engine preference,
+1. **The groundbreak ask.** Only when you start the pipeline somewhere that isn't a
+   push-ready repo — an empty folder, say. Creating a repository on your GitHub account
+   is the kind of outward-facing act a system should never do silently, so it's one
+   question: create a private repo, point at an existing remote, or run local-only.
+2. **The archivist's consult.** Databases genuinely need you: engine preference,
    credentials, API keys for hosted providers. So the `db-consult` skill asks once, asks
    *everything* in a single exchange, and lists a safe default next to each question
    where one exists. A second database question later in the run is, by the system's own
    charter, a failure of this skill. And the archivist only shows up at all if the build
    needs persistence — named in your prompt, or inferred mid-run from a real need. No
    database gets bolted on because the system likes databases.
-2. **Safety.** Confirmation before anything destructive or irreversible, always.
+3. **Safety.** Confirmation before anything destructive or irreversible, always.
    Autonomy never covers dropping a table.
+
+When the first two are both pending, the Mayor merges them into one batch. The design
+target is a single question moment per run — and zero when the ground is solid and no
+database is involved.
 
 Everything else gets decided by convention and *disclosed in the final report* rather
 than asked about. That last clause matters: silent decisions are how systems surprise

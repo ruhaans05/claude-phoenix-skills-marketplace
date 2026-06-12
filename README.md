@@ -5,7 +5,7 @@
 # Phoenix City
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
-[![Plugin: agent-city 1.1.0](https://img.shields.io/badge/agent--city-1.1.0-ff5e8a.svg)](plugins/agent-city)
+[![Plugin: agent-city 1.2.0](https://img.shields.io/badge/agent--city-1.2.0-ff5e8a.svg)](plugins/agent-city)
 [![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-7df0c0.svg)](https://claude.com/claude-code)
 
 An agent marketplace for [Claude Code](https://claude.com/claude-code). It ships one
@@ -16,8 +16,9 @@ tested, pushed, and looked after until it's green.
 It works where real work happens: your existing repo. The engineer surveys the codebase
 before writing anything, new code follows the house conventions, and the inspector runs
 your existing suite alongside the tests it writes — a change that breaks old behavior is
-a failed inspection, full stop. Green-field projects work too; they're just the easy
-case.
+a failed inspection, full stop. And it works from the other extreme too: open a
+completely empty folder, type `/phoenix build me ...`, and the city founds the repo
+itself before it builds.
 
 The pipeline never merges to main. It gets your work to a passing PR; clicking merge is
 your job. And the name isn't decoration — when a test fails or a reviewer rejects the PR,
@@ -54,6 +55,26 @@ New to multi-agent systems, or want to understand how this one is put together b
 running it? Read [the guide](GUIDE.md) — it teaches how a city of agents works, start to
 finish, using this one as the worked example.
 
+### From an empty folder
+
+The pipeline doesn't need a prepared repo. In a directory you created a minute ago:
+
+```
+mkdir myapp && cd myapp     # nothing in it, not even git
+claude                      # open Claude Code here
+/phoenix build me a CLI that tracks my reading list
+```
+
+The `groundbreak` skill inspects the ground first: no git → `git init` plus a baseline
+commit; no remote → one question (create a private GitHub repo, paste an existing
+remote, or run local-only); no `gh` login → it tells you the fix and continues
+local-only, so you still end the run with built, tested, committed work on a feature
+branch. The ledger remembers — authenticate later, type `/phoenix`, and the run upgrades
+itself to a real PR.
+
+The only thing it will never do silently is create a repo on your GitHub account: that
+happens once, from your answer, private unless you say public.
+
 ## The agents
 
 **The Mayor** is the orchestrator. It parses your command into a work order, runs the
@@ -75,9 +96,12 @@ The other four are the executive agents. Each owns a phase:
   actually means something). `test-run` runs the full suite — new tests plus whatever
   already existed — and triages each failure into a root cause the engineer can act on.
 
-- **city-courier** handles delivery. `pr-open` branches off the default branch, commits
-  cleanly, sweeps the diff for anything credential-shaped, pushes, and opens the PR with
-  a description traceable to real runs. `pr-steward` then manages the PR's life: polls
+- **city-courier** handles delivery. `groundbreak` makes any directory push-ready
+  first — git init and baseline commit in an empty folder, the GitHub question settled
+  in one ask, local-only fallback when GitHub isn't reachable. `pr-open` branches off
+  the default branch, commits cleanly, sweeps the diff for anything credential-shaped,
+  pushes, and opens the PR with a description traceable to real runs. `pr-steward` then
+  manages the PR's life: polls
   CI, reads the actual failure logs rather than guessing from check names, reads review
   rejections for their reasoning, fixes mechanical problems itself, and routes
   substantive ones back through the pipeline.
@@ -95,7 +119,8 @@ The other four are the executive agents. Each owns a phase:
 ```
 your command
   └─► intake          work order: what, done-means, DB?, iterate?, cap
-  └─► db-consult      only if a DB is named or inferred  ← the one user interruption
+  └─► groundbreak     only if the folder isn't a push-ready repo (empty is fine)
+  └─► db-consult      only if a DB is named or inferred  ← one merged question batch
   └─► blueprint       design against the existing code
   └─► construct       build it
   └─► db-provision    only if the consult ran
@@ -174,11 +199,11 @@ plugins/agent-city/
 │   ├── city-courier.md                # PR / delivery
 │   └── city-archivist.md              # database (conditional)
 └── skills/
-    ├── city-charter/  intake/  city-ledger/   # mayor
-    ├── blueprint/     construct/              # engineer
-    ├── test-forge/    test-run/               # inspector
-    ├── pr-open/       pr-steward/             # courier
-    └── db-consult/    db-provision/           # archivist
+    ├── city-charter/  intake/  city-ledger/      # mayor
+    ├── blueprint/     construct/                  # engineer
+    ├── test-forge/    test-run/                   # inspector
+    ├── groundbreak/   pr-open/  pr-steward/       # courier
+    └── db-consult/    db-provision/               # archivist
 ```
 
 Each skill is a `SKILL.md` (the model-facing contract) plus a `README.md` (the
@@ -190,6 +215,8 @@ existing agent? See [CONTRIBUTING.md](CONTRIBUTING.md).
 - [x] Agent City v1 — Mayor + four executive agents, one command to a passing PR
 - [x] v1.1 — `/phoenix` + `/city-status` commands, and the ledger: resumable runs,
       reviewer-auditable PRs ([CHANGELOG](CHANGELOG.md))
+- [x] v1.2 — `groundbreak`: start from a completely empty folder; local-only fallback
+      when GitHub isn't available
 - [ ] City Planner — a review agent that critiques the blueprint before construction
 - [ ] Night Watch — scheduled stewardship, tending open PRs after the session ends
 - [ ] More districts: observability, performance, security audit

@@ -3,6 +3,25 @@
 All notable changes to the Phoenix City marketplace and the Agent City plugin.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.2.0] — 2026-06-11
+
+### Added
+- `groundbreak` skill (city-courier) — the pipeline now starts from a completely empty
+  folder: detects missing git / commits / remote / gh auth, founds the repo (git init +
+  baseline commit), settles the GitHub question in one ask (private repo by default,
+  existing remote, or local-only), and degrades gracefully to a local-only run that
+  ends at a finished feature branch instead of a PR.
+- Local-only mode as a sanctioned terminal state; `/phoenix` later upgrades a
+  local-only run to a real PR via the ledger.
+
+### Changed
+- Charter Article IV: three sanctioned interruptions (groundbreak ask, archivist
+  consult, safety) — merged into one batch when both questions are pending.
+- `intake` work order: repo-readiness, visibility, and local-only fields.
+- `pr-open`: a missing remote routes back through groundbreak instead of failing.
+- `/phoenix` command: groundbreak step added; "an empty folder is a valid starting
+  point."
+
 ## [1.1.0] — 2026-06-11
 
 ### Added

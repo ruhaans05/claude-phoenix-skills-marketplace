@@ -24,8 +24,10 @@ the humans.
 3. **Pre-flight.** Last sweep of the diff for anything credential-shaped (keys, tokens,
    connection strings). Found → stop, remove it, tell the Mayor. A pushed secret is
    published; this is the final gate where it's still cheap.
-4. **Push** the feature branch to the remote. No remote configured → report to the Mayor
-   (a repo/remote decision is the user's); don't invent one.
+4. **Push** the feature branch to the remote. No remote configured → that's a
+   groundbreak miss: route back through `groundbreak` rather than inventing one. In a
+   local-only run, stop here — finish the branch locally and report it as the
+   pipeline's terminal state.
 5. **Open the PR** against the default branch (`gh pr create` or the platform
    equivalent), and record its URL — the steward and the final report need it.
 

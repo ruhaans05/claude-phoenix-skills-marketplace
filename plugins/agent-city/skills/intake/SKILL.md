@@ -23,7 +23,11 @@ genuinely unanswerable things routed to their sanctioned places.
 - **Database:** <named: which | not mentioned: "infer during build" | explicitly none>
 - **Iterate:** <until green (default) | one pass — quote the phrase that opted out>
 - **Iteration cap:** <from prompt | default 5>
-- **Repo/branch context:** <existing repo? default branch? remote?>
+- **Repo/branch context:** <push-ready | needs groundbreak: no git / no commits /
+  no remote / no gh auth — name what's missing>
+- **Repo visibility, if creating:** <private (default) | public — only if the prompt
+  says so>
+- **Local-only:** <only if the prompt asks, or groundbreak falls back to it>
 - **Out of scope:** <what the prompt implies but does not ask for>
 ```
 

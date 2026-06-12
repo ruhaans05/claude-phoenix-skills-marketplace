@@ -17,6 +17,7 @@ between.
 
 ```
 intake                       parse the command into a work order
+  └─► groundbreak            ONLY if the directory isn't a push-ready repo
   └─► db-consult             ONLY if DB named in prompt or inferred needed
   └─► blueprint              design against the existing codebase
   └─► construct              implement the blueprint
@@ -51,12 +52,17 @@ Phases execute in order. A phase starts only when the previous phase's output ex
 
 ## Article IV — The user's peace
 
-After intake, the user is interrupted for exactly two reasons:
+After intake, the user is interrupted for exactly three reasons:
 
-1. **The archivist's consult** — database engine, credentials, hosting, API keys.
+1. **The groundbreak ask** — only when starting from ground that isn't a push-ready
+   repo: create a private GitHub repo / use an existing remote / run local-only.
+2. **The archivist's consult** — database engine, credentials, hosting, API keys.
    Batched into one exchange.
-2. **Safety** — confirmation before anything destructive or irreversible, and security
+3. **Safety** — confirmation before anything destructive or irreversible, and security
    warnings. These always override autonomy.
+
+When both groundbreak and the consult are pending, the Mayor merges them into a single
+interruption. One run, at most one question batch (plus safety, always).
 
 Everything else is decided from the work order or sensible convention, and disclosed in
 the final report.
@@ -72,7 +78,8 @@ and the pipeline continues it rather than restarting. The work order may opt out
 
 ## Article VI — Immutable laws
 
-1. **Never merge to main.** The pipeline's terminal state is an open pull request. Always.
+1. **Never merge to main.** The pipeline's terminal state is an open pull request —
+   or, in a local-only run, a finished local feature branch — never a merge. Always.
 2. **Never claim unverified.** Test counts from real runs, check statuses from real polls.
 3. **Never widen scope.** The work order is the boundary; gold-plating is a violation.
 4. **Never bury a failure.** Caps, plateaus, and blocks end with a truthful report, not a

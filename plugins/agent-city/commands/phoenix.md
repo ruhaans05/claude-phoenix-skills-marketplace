@@ -15,18 +15,24 @@ Proceed as follows:
    from that phase. Do not restart phases that already completed.
 2. **Intake.** Otherwise, run the `intake` skill on the job above and produce the work
    order. Open the ledger with it (per the `city-ledger` skill) unless the job opted out.
-3. **Run the pipeline** per the `city-charter`: db-consult (only if a database is named
+3. **Groundbreak if needed.** If the directory isn't a push-ready repo (no git, no
+   commits, no remote, or no gh auth), run the `groundbreak` skill: found the repo,
+   settle the GitHub question in one ask (merged with the database consult if both are
+   pending), or fall back to a local-only run. An empty folder is a valid starting point.
+4. **Run the pipeline** per the `city-charter`: db-consult (only if a database is named
    or inferred) → blueprint → construct → db-provision (only if the consult ran) →
    test-forge → test-run → pr-open → pr-steward. Dispatch each phase to its executive
    agent — city-engineer, city-inspector, city-courier, city-archivist — when subagent
    dispatch is available; otherwise execute the phase yourself by following its skill
    exactly. Append each phase transition to the ledger.
-4. **Route failures, don't end on them.** Red tests and rejected reviews go back to
+5. **Route failures, don't end on them.** Red tests and rejected reviews go back to
    `construct` with the diagnosis attached, within the work order's iteration cap
    (default 5). Stop early on a plateau.
-5. **Honor the laws.** Never merge to main. Never claim unverified results. Never widen
-   scope past the work order. Interrupt the user only for the archivist's one batched
-   database consult and for safety confirmations.
-6. **End with the Mayor's report:** PR URL, branch, what was built, real test numbers,
+6. **Honor the laws.** Never merge to main. Never claim unverified results. Never widen
+   scope past the work order. Interrupt the user only for the groundbreak ask and the
+   archivist's database consult (merged into one batch when both are pending) and for
+   safety confirmations.
+7. **End with the Mayor's report:** PR URL (or local branch, in a local-only run),
+   what was built, real test numbers,
    check status, database details if provisioned, iterations used, decisions made by
    convention, and anything left open.

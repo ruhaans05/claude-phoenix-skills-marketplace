@@ -30,6 +30,7 @@ intake → [db-consult?] → blueprint → construct → [db-provision?]
 |-------|-----------------|----------------|
 | Understand the order | (you) | **intake** — parse the command into a work order: requirements, DB specified?, iterate-until-green? (default yes), iteration cap (default 5) |
 | Keep the record | (you) | **city-ledger** — open `.agent-city/ledger.md` with the work order, append every phase transition, keep the Status block current. Resumable + reviewer-auditable |
+| Found the ground | **city-courier** | **groundbreak** — only if the directory isn't a push-ready repo: git init + baseline commit, the GitHub question (one ask, merged with db-consult if both pending), or local-only fallback |
 | Database decision | **city-archivist** | **db-consult** — only if the prompt names a database OR any later phase reports needing persistence. This is the ONLY phase allowed to ask the user questions |
 | Design + build | **city-engineer** | **blueprint** → **construct** |
 | Database setup | **city-archivist** | **db-provision** — wire schema, migrations, env config |
