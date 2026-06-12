@@ -2,13 +2,11 @@
 
 _The stance behind Agent City, and the agent that enforces it._
 
-Phoenix City is built on a conviction we share with the people who build the models
-this marketplace runs on — Anthropic's view that safety isn't friction against capable
-AI systems, it's a property of well-engineered ones. (We're an independent project with
-no affiliation; we just think they're right.) An autonomous pipeline that writes, tests,
-and ships code is exactly the kind of system where that conviction has to be structural,
-not aspirational. So Agent City doesn't have an ethics paragraph — it has a police
-force.
+Phoenix City is built on a simple conviction: safety isn't friction against capable AI
+systems — it's a property of well-engineered ones. An autonomous pipeline that writes,
+tests, and ships code is exactly the kind of system where that conviction has to be
+structural, not aspirational. So Agent City doesn't have an ethics paragraph — it has a
+police force.
 
 ## The principle
 
@@ -66,10 +64,9 @@ is provably clean, not presumed clean.
 
 The marshal polices the pipeline, not your intentions — so the honest version of this
 document admits its limit: a determined person can misuse almost any tool. Use Agent
-City on systems you own or are authorized to change, under the
-[Anthropic Usage Policy](https://www.anthropic.com/legal/aup) that governs the
-underlying models, and the marshal's job stays what it should be — catching honest
-mistakes before they ship.
+City on systems you own or are authorized to change, within the usage policies of
+whatever model provider powers your sessions, and the marshal's job stays what it
+should be — catching honest mistakes before they ship.
 
 Found a gap in the marshal's beat, or a way a run got somewhere it shouldn't?
 That's a security report we want:
