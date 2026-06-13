@@ -3,6 +3,32 @@
 All notable changes to the Phoenix City marketplace and the Agent City plugin.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.4.0] — 2026-06-13
+
+### Added
+- `city-herald` agent + `doc-sync` skill — a documentation phase between a green
+  `test-run` and `pr-open`. Brings README, CHANGELOG, usage/help text, and touched docs
+  into truth with what the run actually built, so docs ride in the same PR as the code.
+  Documents what was *verified*, not what was hoped; a pure internal change may be a no-op.
+- `city-bank` agent + `budget` skill — the treasury. Rides every phase read-only and
+  **advisory only**: logs per-phase token spend to the ledger and surfaces correctness-free
+  optimizations (reuse the ledger/blueprint, delegate heavy reads to compressed subagents,
+  scope diffs tightly). No halt, no veto, no slowing — its first rule is that no suggestion
+  may skip a test, starve a phase of needed context, or weaken a marshal check.
+- The marshal's four deputies — `patrol` now splits its sweep across **ethics** (should
+  this exist?), **licenses & policy** (compliance, attribution, ToS), **secrets & PII**
+  (credentials, personal data), and **data quality** (replayable state, honest claims, the
+  city's own laws). One sweep, four beats; every flag names its deputy.
+
+### Changed
+- `city-marshal`: rewritten as chief + deputy roster; halt authority and read-only mandate
+  unchanged. The deputy of ethics owns the hard lines; data quality owns the city's laws.
+- Mayor: pipeline gains the `doc-sync` phase; pipeline table adds the herald (Document)
+  and the bank (Watch the cost — advisory, never hinders), and notes both the marshal and
+  bank ride every phase.
+- README, repo layout, roadmap, and the skyline visual updated for the herald, the bank,
+  and the deputies.
+
 ## [1.3.0] — 2026-06-11
 
 ### Added

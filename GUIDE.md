@@ -34,10 +34,12 @@ everyone — including the administration.
 Every well-built agent system separates **who** from **how**.
 
 An **agent** is a who: a role with a jurisdiction, its own working context, and operating
-rules. In Agent City the engineer writes code, the inspector tests it, the courier ships
-it, the archivist handles the database. Crucially, the inspector is not the engineer —
-the one who verifies is never the one who built. That's the conflict-of-interest fix,
-structurally, not as a promise.
+rules. In Agent City the engineer writes code, the inspector tests it, the herald
+documents it, the courier ships it, the archivist handles the database. Crucially, the
+inspector is not the engineer — the one who verifies is never the one who built. That's
+the conflict-of-interest fix, structurally, not as a promise. The same separation is why
+the herald documents what was *verified* rather than what the engineer hoped, and why the
+marshal who can halt a run is never an author of it.
 
 A **skill** is a how: a written procedure for one phase of work. The contract that says
 exactly what the phase consumes, what it produces, and what it must never do. Agent
@@ -57,8 +59,8 @@ contract plus a human-readable `README.md`. Open `pr-open` and look for the word
 
 ## 3. Someone has to be the mayor
 
-Specialists alone aren't a system — four brilliant agents with no coordinator just
-produce four opinions. Something has to own the pipeline: start it, sequence it, route
+Specialists alone aren't a system — five brilliant agents with no coordinator just
+produce five opinions. Something has to own the pipeline: start it, sequence it, route
 failures, enforce bounds, and be the *single* place that declares the job done.
 
 That's the orchestrator. In Agent City it's literally called the **Mayor**, and its two
@@ -142,13 +144,27 @@ the courier sweeps the diff for anything credential-shaped before every push, be
 the last cheap place to catch a leaked key is before it's published.
 
 And the laws have an enforcer. The **city-marshal** is an agent with no phase of its
-own — it rides every phase read-only, running checkpoint sweeps (`patrol`) for request
-legitimacy, license compliance, secrets and PII, authorized targets, and the charter
-itself. It's the one agent with halt authority, and not even the orchestrator can route
-around it. That's the structural version of an ethics policy: not a paragraph promising
-good behavior, but a separate jurisdiction whose only job is to check — the same
-separation-of-powers move as the builder/verifier split, applied to ethics and law. The
-full stance is in [ETHICS.md](ETHICS.md).
+own — it rides every phase read-only, running checkpoint sweeps (`patrol`). The marshal
+is a department, not a lone officer: the chief splits the sweep across four deputies —
+**ethics** (should this exist at all?), **licenses & policy** (compliance and
+attribution), **secrets & PII** (credentials and personal data), and **data quality**
+(replayable state, honest claims, and the charter itself) — so every flag says exactly
+which kind of problem it found. It's the one agent with halt authority, and not even the
+orchestrator can route around it. That's the structural version of an ethics policy: not
+a paragraph promising good behavior, but a separate jurisdiction whose only job is to
+check — the same separation-of-powers move as the builder/verifier split, applied to
+ethics and law. The full stance is in [ETHICS.md](ETHICS.md).
+
+There's a second agent that rides every phase, and it's worth seeing as the marshal's
+mirror image. The **city-bank** watches what a run *costs* — it logs token spend and
+points out where the same work could be done with less waste (reuse the ledger instead of
+re-reading the codebase, hand heavy reads to compressed subagents, scope diffs tightly).
+But where the marshal can halt, the bank has no authority over the pipeline at all: it is
+purely advisory, and its first rule is that no suggestion may ever skip a test, starve a
+phase of context it genuinely needs, or weaken a marshal check. The design choice is the
+lesson — a cost watchdog that *could* block would eventually block good engineering to
+save money, so the one agent whose concern is money is deliberately the one agent that
+cannot stop the work. It makes a run cheaper, never worse.
 
 ## 6. A full run, start to finish
 
@@ -187,6 +203,14 @@ done, executable. Then runs everything. Say a redirect test comes back red: the
 inspector triages it to a root cause — trailing-slash handling in the route, with the
 file and line — and the Mayor routes that diagnosis back to construct. Fix, re-run,
 green. That was iteration one of five, and it cost you nothing but tokens.
+
+**Document.** Now that the suite is green, the herald runs `doc-sync`: it reads what the
+run actually built and brings the docs into line — adds the two endpoints and a usage
+example to the README, writes a CHANGELOG entry, updates the `--help` text — every line
+traceable to code that exists and tests that passed. These edits land in the same commit
+range as the feature, so the PR a reviewer opens never shows code and docs disagreeing.
+(Had this been a pure internal refactor with nothing user-facing, the herald would have
+logged "no doc change needed" and passed — it doesn't manufacture churn.)
 
 **Open.** The courier branches (`agent-city/url-shortener`), commits cleanly, sweeps
 the diff for secrets, pushes, and opens the PR — description carrying what was built,

@@ -21,10 +21,12 @@ Proceed as follows:
    pending), or fall back to a local-only run. An empty folder is a valid starting point.
 4. **Run the pipeline** per the `city-charter`: db-consult (only if a database is named
    or inferred) → blueprint → construct → db-provision (only if the consult ran) →
-   test-forge → test-run → pr-open → pr-steward. Dispatch each phase to its executive
-   agent — city-engineer, city-inspector, city-courier, city-archivist — when subagent
-   dispatch is available; otherwise execute the phase yourself by following its skill
-   exactly. Append each phase transition to the ledger.
+   test-forge → test-run → doc-sync → pr-open → pr-steward. Dispatch each phase to its
+   executive agent — city-engineer, city-inspector, city-herald, city-courier,
+   city-archivist — when subagent dispatch is available; otherwise execute the phase
+   yourself by following its skill exactly. The city-marshal (`patrol`) and the city-bank
+   (`budget`) ride every phase read-only: the marshal can halt on a violation; the bank is
+   advisory only and never halts. Append each phase transition to the ledger.
 5. **Route failures, don't end on them.** Red tests and rejected reviews go back to
    `construct` with the diagnosis attached, within the work order's iteration cap
    (default 5). Stop early on a plateau.

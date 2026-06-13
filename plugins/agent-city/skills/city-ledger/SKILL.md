@@ -34,6 +34,8 @@ It never exists on the default branch unless a human merges it there knowingly.
 - [2026-06-11 14:11] construct — increments 1-4 built; 1 deviation (see Decisions)
 - [2026-06-11 14:14] test-run — FAIL 1/12: redirect strips trailing slash → construct
 - [2026-06-11 14:17] test-run — PASS 12/12 (iteration 1 of 5)
+- [2026-06-11 14:18] doc-sync — README + CHANGELOG updated (2 endpoints, usage example)
+- [2026-06-11 14:18] budget — ~310k tok run (est); blueprint reused, no re-reads flagged
 - [2026-06-11 14:19] pr-open — PR #42 opened
 - [2026-06-11 14:25] pr-steward — CI green; awaiting review
 

@@ -1,7 +1,7 @@
 {
   "name": "agent-city",
-  "description": "A city of agents that builds software end-to-end from one command (/phoenix) — in an existing repo or a completely empty folder. The Mayor orchestrates; the executive agents execute: city-engineer (writes code), city-inspector (writes + runs tests), city-courier (founds the repo if needed, opens + stewards the GitHub PR), city-archivist (provisions a database when needed), city-marshal (the police — rides every phase with halt authority, enforcing ethics, licenses, secret/PII protection, and the city's own laws). Every run keeps a resumable, reviewer-auditable ledger on the feature branch. The pipeline loops until the pull request passes — and never merges to main.",
-  "version": "1.3.0",
+  "description": "A city of agents that builds software end-to-end from one command (/phoenix) — in an existing repo or a completely empty folder. The Mayor orchestrates; the executive agents execute: city-engineer (writes code), city-inspector (writes + runs tests), city-herald (keeps the README + docs in sync with what shipped), city-courier (founds the repo if needed, opens + stewards the GitHub PR), city-archivist (provisions a database when needed). Two agents ride every phase read-only: city-marshal (the police — four deputies covering ethics, licenses/policy, secrets/PII, and data quality, with halt authority) and city-bank (the treasury — advisory-only token-budget watch that never halts or hinders the work). Every run keeps a resumable, reviewer-auditable ledger on the feature branch. The pipeline loops until the pull request passes — and never merges to main.",
+  "version": "1.4.0",
   "author": {
     "name": "ruhaans05",
     "url": "https://github.com/ruhaans05"

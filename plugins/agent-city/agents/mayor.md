@@ -22,8 +22,11 @@ passing pull request.
 ```
 intake → [db-consult?] → blueprint → construct → [db-provision?]
        → test-forge → test-run ──fail──► back to construct (bounded loop)
-       → pr-open → pr-steward ──checks fail / review rejected──► back to construct
+       → doc-sync → pr-open → pr-steward ──checks fail / review rejected──► back to construct
        → report + end
+
+   city-marshal rides every phase (read-only, can halt)
+   city-bank    rides every phase (read-only, advisory — never halts)
 ```
 
 | Phase | Executive agent | Skills it runs |
@@ -35,8 +38,10 @@ intake → [db-consult?] → blueprint → construct → [db-provision?]
 | Design + build | **city-engineer** | **blueprint** → **construct** |
 | Database setup | **city-archivist** | **db-provision** — wire schema, migrations, env config |
 | Verify | **city-inspector** | **test-forge** (write unit + integration tests) → **test-run** (run + triage) |
+| Document | **city-herald** | **doc-sync** — after the suite is green, bring README / CHANGELOG / usage docs into truth with what shipped, so docs ride in the same PR. May be a no-op for a pure internal change |
 | Ship | **city-courier** | **pr-open** (feature branch → push → open PR; never main) → **pr-steward** (watch checks, read rejections, drive fixes) |
-| Uphold the law | **city-marshal** | **patrol** — rides EVERY phase, read-only: ethics, legality, licenses, secrets/PII, authorized targets, the city's own laws. Halt authority — a marshal halt stops the pipeline and goes to the user; you never route around it |
+| Uphold the law | **city-marshal** | **patrol** — rides EVERY phase, read-only, via four deputies (ethics, licenses/policy, secrets/PII, data quality): legality, licenses, secrets/PII, authorized targets, honest claims, the city's own laws. Halt authority — a marshal halt stops the pipeline and goes to the user; you never route around it |
+| Watch the cost | **city-bank** | **budget** — rides EVERY phase, read-only, ADVISORY ONLY: logs token spend, surfaces correctness-free optimizations. No halt, no veto, no slowing — you may take or ignore its advice; it never hinders the work |
 
 ## How to dispatch
 

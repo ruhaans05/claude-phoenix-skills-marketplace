@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "agent-city",
-      "description": "Agent City: an orchestrated city of agents. The Mayor runs the pipeline; the executive agents do the work — city-engineer writes the code, city-inspector writes and runs the tests, city-courier opens and stewards the GitHub pull request, city-archivist provisions a database when one is needed. One command in, a passing pull request out. Never merges to main.",
+      "description": "Agent City: an orchestrated city of agents. The Mayor runs the pipeline; the executive agents do the work — city-engineer writes the code, city-inspector writes and runs the tests, city-herald keeps the README and docs in sync with what shipped, city-courier opens and stewards the GitHub pull request, city-archivist provisions a database when one is needed. The city-marshal (four deputies, halt authority) and the city-bank (advisory token budget) ride every phase. One command in, a passing pull request out. Never merges to main.",
       "source": "./plugins/agent-city",
       "category": "productivity"
     }

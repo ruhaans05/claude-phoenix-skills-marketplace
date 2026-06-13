@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="assets/agent-city.svg" alt="Agent City — a skyline of Claude Code agents. The Mayor orchestrates from City Hall; the engineer, inspector, courier, and archivist buildings each carry their skills. One command in, a passing pull request out." width="100%">
+  <img src="assets/agent-city.svg" alt="Agent City — a skyline of Claude Code agents. The Mayor orchestrates from City Hall; the engineer, inspector, herald, courier, and archivist buildings each carry their skills, while the marshal and the bank patrol the street below. One command in, a passing pull request out." width="100%">
 </p>
 
 # Phoenix City
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
-[![Plugin: agent-city 1.3.0](https://img.shields.io/badge/agent--city-1.3.0-ff5e8a.svg)](plugins/agent-city)
+[![Plugin: agent-city 1.4.0](https://img.shields.io/badge/agent--city-1.4.0-ff5e8a.svg)](plugins/agent-city)
 [![Ethics: enforced by the marshal](https://img.shields.io/badge/ethics-enforced%20by%20the%20marshal-ffb347.svg)](ETHICS.md)
 [![Built for Claude Code](https://img.shields.io/badge/built%20for-Claude%20Code-7df0c0.svg)](https://claude.com/claude-code)
 
@@ -84,7 +84,7 @@ allowed to declare the run done. Its skills: `intake` (command → work order),
 `city-charter` (the pipeline's rules — phase order, failure routing, iteration bounds),
 and `city-ledger` (the run's record — see below).
 
-The other four are the executive agents. Each owns a phase:
+The other five are the executive agents. Each owns a phase:
 
 - **city-engineer** writes the code. `blueprint` surveys the existing codebase read-only
   and produces a plan; `construct` builds it in small increments, sanity-checking each
@@ -96,6 +96,14 @@ The other four are the executive agents. Each owns a phase:
   makes your definition of done executable (every test is watched failing first, so green
   actually means something). `test-run` runs the full suite — new tests plus whatever
   already existed — and triages each failure into a root cause the engineer can act on.
+
+- **city-herald** keeps the docs honest. `doc-sync` runs after the suite is green and
+  before the PR opens: it diffs what the run actually built against the README, CHANGELOG,
+  usage/help text, and any docs the change touched, then closes the gap — adding what's
+  new, correcting what's now wrong, removing what's gone. Because it documents what was
+  *verified* (not what was hoped) and its edits ride in the same PR, a reviewer never sees
+  code and docs disagree. A pure internal refactor that needs no doc change is allowed to
+  be a no-op.
 
 - **city-courier** handles delivery. `groundbreak` makes any directory push-ready
   first — git init and baseline commit in an empty folder, the GitHub question settled
@@ -115,13 +123,26 @@ The other four are the executive agents. Each owns a phase:
   committed migrations, app wired through one seam, `.env` gitignored with a committed
   `.env.example` — and proves it with a real write-and-read-back before reporting done.
 
-- **city-marshal** is the police. It owns no phase — it rides all of them, read-only,
-  running `patrol`'s checkpoints: is the request something the city should build at all,
-  are the licenses clean, is anything credential-shaped headed for a commit, is personal
-  data being collected beyond need, do the PR's claims match what actually ran. It's the
-  one agent with halt authority, and it can't be routed around — not even by the Mayor.
-  Violations stop the run and go to *you*, with evidence. The full stance is in
+Two more agents own no phase — they ride *all* of them, read-only:
+
+- **city-marshal** is the police, and it's a department, not a lone officer. The chief
+  runs `patrol`'s checkpoints and splits the work across four deputies — **ethics** (is
+  the request something the city should build at all?), **licenses & policy** (are the
+  licenses clean and attributed?), **secrets & PII** (is anything credential-shaped headed
+  for a commit, is personal data collected beyond need?), and **data quality** (do the
+  PR's claims match what ran, do migrations replay, are the city's own laws kept?). It's
+  the one agent with halt authority, and it can't be routed around — not even by the
+  Mayor. Violations stop the run and go to *you*, with evidence. The full stance is in
   [ETHICS.md](ETHICS.md).
+
+- **city-bank** is the treasury — the token-budget watch. It rides every phase read-only
+  like the marshal, but with the opposite kind of power: **none over the pipeline**.
+  `budget` logs what each phase spends and surfaces optimizations that cost nothing in
+  correctness (reuse the ledger instead of re-reading, delegate heavy reads to compressed
+  subagents, scope diffs tightly) — but it is purely advisory. It cannot halt, slow, or
+  veto a phase, and its first rule is that no suggestion may ever skip a test, starve a
+  phase of context it needs, or weaken a marshal check. It makes a run cheaper, never
+  worse; the Mayor is free to ignore every word of it.
 
 ## The pipeline
 
@@ -135,9 +156,13 @@ your command
   └─► db-provision    only if the consult ran
   └─► test-forge      write the tests
   └─► test-run ──red────► construct (with diagnosis)     ┐
+  └─► doc-sync        README / CHANGELOG / docs ← what shipped (no-op if nothing user-facing)
   └─► pr-open         feature branch → push → PR          │  loops until green,
   └─► pr-steward ──red──► construct (with analysis)       ┘  capped (default 5)
   └─► final report    PR URL, real test numbers, check status, what remains
+
+  city-marshal patrols every phase (read-only, four deputies, can halt the run)
+  city-bank    meters every phase (read-only, advisory — logs cost, never halts)
 ```
 
 The loop is bounded: five full iterations by default, or whatever cap you set in the
@@ -205,16 +230,20 @@ plugins/agent-city/
 │   ├── mayor.md                       # orchestrator
 │   ├── city-engineer.md               # code
 │   ├── city-inspector.md              # tests
+│   ├── city-herald.md                 # docs: keeps README + docs in sync
 │   ├── city-courier.md                # PR / delivery
 │   ├── city-archivist.md              # database (conditional)
-│   └── city-marshal.md                # police: ethics + law, rides every phase
+│   ├── city-marshal.md                # police: four deputies, rides every phase
+│   └── city-bank.md                   # treasury: token budget, advisory, rides every phase
 └── skills/
     ├── city-charter/  intake/  city-ledger/      # mayor
     ├── blueprint/     construct/                  # engineer
     ├── test-forge/    test-run/                   # inspector
+    ├── doc-sync/                                  # herald
     ├── groundbreak/   pr-open/  pr-steward/       # courier
     ├── db-consult/    db-provision/               # archivist
-    └── patrol/                                    # marshal
+    ├── patrol/                                    # marshal (ethics · licenses · secrets/PII · data quality)
+    └── budget/                                    # bank
 ```
 
 Each skill is a `SKILL.md` (the model-facing contract) plus a `README.md` (the
@@ -230,6 +259,10 @@ existing agent? See [CONTRIBUTING.md](CONTRIBUTING.md).
       when GitHub isn't available
 - [x] v1.3 — the marshal: ethics and law enforcement riding every phase, with halt
       authority ([ETHICS.md](ETHICS.md))
+- [x] v1.4 — the marshal's four deputies (ethics, licenses/policy, secrets/PII, data
+      quality); the **city-herald** (`doc-sync`: README + docs kept in sync with what
+      shipped); the **city-bank** (`budget`: advisory token-cost watch that never hinders
+      the run) ([CHANGELOG](CHANGELOG.md))
 - [ ] City Planner — a review agent that critiques the blueprint before construction
 - [ ] Night Watch — scheduled stewardship, tending open PRs after the session ends
 - [ ] More districts: observability, performance, security audit

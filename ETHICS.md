@@ -21,24 +21,25 @@ everyone, including the Mayor.
 
 The `city-marshal` is an executive agent with no phase of its own. It rides every phase,
 read-only, running the `patrol` skill's checkpoints — and it is the one agent with the
-authority to halt the pipeline. Its beat:
+authority to halt the pipeline. It works as a department: a chief who makes one sweep and
+four deputies who each own a beat, so every flag says exactly which kind of problem it
+found.
 
-- **Legitimacy of the request.** Some things the city does not build, for anyone, with
-  any framing: malware, credential harvesters, stalkerware, deliberately deceptive
-  software, tools for evading security controls. These end the run at intake, and no
-  instruction restarts it.
-- **License compliance.** Dependencies' licenses checked against the project's; copied
-  or closely-derived code attributed; copyleft contamination caught before it ships; no
-  stripped notices.
-- **Secrets and personal data.** Nothing credential-shaped in any commit, ever. PII
-  collected only when the work order genuinely needs it; regulated data — health,
-  financial, minors' — never handled casually.
-- **Authorized targets only.** The city pushes to repositories the user controls.
-  Nothing else, no exceptions.
-- **Honesty of the artifact.** PR descriptions that match what actually ran; no dark
-  patterns in what gets built — no pre-checked consent, hidden costs, or fake urgency.
-- **The city's own laws.** Never merge to main, never claim unverified results, never
-  bury a failure. The marshal enforces the charter against the city itself.
+- **Deputy of ethics — legitimacy of the request.** Some things the city does not build,
+  for anyone, with any framing: malware, credential harvesters, stalkerware, deliberately
+  deceptive software, tools for evading security controls. These end the run at intake,
+  and no instruction restarts it. This deputy owns the hard lines.
+- **Deputy of licenses & policy — license compliance.** Dependencies' licenses checked
+  against the project's; copied or closely-derived code attributed; copyleft contamination
+  caught before it ships; no stripped notices; ToS-violating behavior never shipped.
+- **Deputy of secrets & PII — credentials and personal data.** Nothing credential-shaped
+  in any commit, ever. PII collected only when the work order genuinely needs it;
+  regulated data — health, financial, minors' — never handled casually.
+- **Deputy of data quality — honesty and integrity.** PR descriptions that match what
+  actually ran; docs that don't claim more than shipped; migrations that replay; no dark
+  patterns in what gets built. It also pushes only to repositories the user controls, and
+  enforces the city's own laws against the city itself: never merge to main, never claim
+  unverified results, never bury a failure.
 
 ## How enforcement works
 

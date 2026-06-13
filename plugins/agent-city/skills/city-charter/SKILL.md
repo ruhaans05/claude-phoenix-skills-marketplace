@@ -24,9 +24,12 @@ intake                       parse the command into a work order
   └─► db-provision           ONLY if db-consult ran
   └─► test-forge             write unit + integration tests
   └─► test-run ──red──────► construct (with diagnosis)        ┐
+  └─► doc-sync               README / CHANGELOG / docs ← what shipped (no-op if none)
   └─► pr-open                feature branch → push → open PR   │ bounded
   └─► pr-steward ──red────► construct (with analysis)          ┘ loop
   └─► final report           PR URL, status, what was built, what remains
+
+  city-marshal (patrol) + city-bank (budget) ride EVERY phase, read-only
 ```
 
 Phases execute in order. A phase starts only when the previous phase's output exists.
@@ -38,6 +41,8 @@ Phases execute in order. A phase starts only when the previous phase's output ex
 - **Red CI check** → courier reads the actual log; mechanical → courier fixes and pushes;
   substantive → engineer, then back through `test-run` before re-push.
 - **Review rejection** → courier extracts the reviewer's reasoning; routed the same way.
+- **Stale or inaccurate docs** → city-herald's `doc-sync`; a marshal data-quality flag on
+  docs that claim more than shipped routes here, not to construct.
 - **Blocked** (missing credential, ambiguous requirement that can't be safely defaulted,
   external service down) → Mayor reports the precise blocker and what's needed; pipeline
   pauses rather than guesses.
@@ -78,14 +83,26 @@ and the pipeline continues it rather than restarting. The work order may opt out
 
 ## Article VI — The marshal
 
-The `city-marshal` rides every phase, read-only, running `patrol`'s checkpoints:
-request legitimacy, licenses, secrets and PII, authorized targets, honest claims, and
-this charter itself. A marshal halt stops the pipeline where it stands and goes to the
-user with evidence; no agent — the Mayor included — routes around it. Hard violations
-(illegal output, malicious capability, deception by design) end the run outright;
-judgment calls go to the user with the facts. The full stance: [ETHICS.md](../../../../ETHICS.md).
+The `city-marshal` rides every phase, read-only, running `patrol`'s checkpoints through
+four deputies — **ethics** (request legitimacy, harmful/deceptive capability), **licenses
+& policy** (compliance, attribution, ToS), **secrets & PII** (credentials, personal data),
+and **data quality** (replayable state, honest claims, this charter itself). A marshal
+halt stops the pipeline where it stands and goes to the user with evidence; no agent — the
+Mayor included — routes around it. Hard violations (illegal output, malicious capability,
+deception by design) end the run outright; judgment calls go to the user with the facts.
+The full stance: [ETHICS.md](../../../../ETHICS.md).
 
-## Article VII — Immutable laws
+## Article VII — The bank
+
+The `city-bank` also rides every phase read-only, running `budget`: it logs per-phase
+token spend to the ledger and surfaces correctness-free optimizations. It is the marshal's
+mirror image in authority — **advisory only**. It has no halt, no veto, and no power to
+slow a phase; the Mayor may take or ignore its advice. Its binding rule is that no
+suggestion may ever skip a test, starve a phase of context it genuinely needs, weaken a
+marshal checkpoint, or lower the work order's quality bar. The bank makes a run cheaper,
+never worse — correctness and safety outrank the budget every time they meet.
+
+## Article VIII — Immutable laws
 
 1. **Never merge to main.** The pipeline's terminal state is an open pull request —
    or, in a local-only run, a finished local feature branch — never a merge. Always.
